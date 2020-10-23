@@ -1,0 +1,181 @@
+    #  Time taken: 0 hours 36 minutes and 32.98 seconds.
+    # {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 3, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+    # 93.05
+
+    #  Time taken: 0 hours 49 minutes and 33.57 seconds.
+    # {'learning_rate': 0.15, 'l2_leaf_reg': 9, 'iterations': 300, 'depth': 7}
+    # 92.82
+
+    #  Time taken: 0 hours 35 minutes and 11.3 seconds.
+    # {'subsample_freq': 20, 'subsample': 0.8, 'num_leaves': 50, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 15, 'colsample_bytree': 0.8}
+    # 92.89
+    # 93.2
+'''
+######################
+'''
+
+    # {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05,
+    # 'colsample_bytree': 0.7}
+    #  93.27
+    #
+    # {'learning_rate': 0.15, 'l2_leaf_reg': 9, 'iterations': 500, 'depth': 7}
+    # 93.16
+    #
+    # {'subsample_freq': 20, 'subsample': 0.9, 'num_leaves': 50, 'n_estimators': 1000, 'min_split_gain': 0.3, 'max_depth': 20,
+    #  'colsample_bytree': 0.7}
+    # 93.06
+    #
+    # {'subsample': 0.8, 'n_estimators': 400, 'min_child_weight': 1, 'max_depth': 20, 'learning_rate': 0.05,
+    #  'colsample_bytree': 0.9}
+    # 92.82
+    #
+    # {'learning_rate': 0.15, 'l2_leaf_reg': 9, 'iterations': 500, 'depth': 7}
+    # 93.28
+    #
+    # {'subsample_freq': 20, 'subsample': 0.8, 'num_leaves': 50, 'n_estimators': 400, 'min_split_gain': 0.4, 'max_depth': 25,
+    #  'colsample_bytree': 0.8}
+    # 92.94
+    # 93.34
+    # public leadboard 0.93600
+
+#  Time taken: 0 hours 39 minutes and 43.73 seconds.
+# {'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+# 93.18
+#
+#  Time taken: 0 hours 30 minutes and 3.27 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 6}
+# 93.29
+#
+#  Time taken: 0 hours 10 minutes and 31.77 seconds.
+# {'subsample': 0.8, 'num_leaves': 40, 'n_estimators': 700, 'min_split_gain': 0.5, 'max_depth': 25, 'colsample_bytree': 0.7}
+# 93.13
+#
+#  Time taken: 0 hours 42 minutes and 37.97 seconds.
+# {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+# 93.34
+#
+#  Time taken: 0 hours 28 minutes and 46.9 seconds.
+# {'learning_rate': 0.15, 'l2_leaf_reg': 13, 'iterations': 700, 'depth': 7}
+# 93.18
+#
+#  Time taken: 0 hours 10 minutes and 31.51 seconds.
+# {'subsample': 0.8, 'num_leaves': 40, 'n_estimators': 1000, 'min_split_gain': 0.5, 'max_depth': 25, 'colsample_bytree': 0.7}
+# 93.06
+# 93.4
+# public leadboard 0.93582
+
+
+'''
+#################################
+'''
+
+#  Time taken: 0 hours 44 minutes and 34.87 seconds.
+# {'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+# 93.14
+#
+#  Time taken: 0 hours 30 minutes and 46.12 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 6}
+# 93.21
+#
+#  Time taken: 0 hours 12 minutes and 17.61 seconds.
+# {'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7}
+# 93.14
+#
+#  Time taken: 0 hours 47 minutes and 56.8 seconds.
+# {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+# 93.22
+#
+#  Time taken: 0 hours 29 minutes and 40.96 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 700, 'depth': 7}
+# 93.13
+#
+#  Time taken: 0 hours 9 minutes and 34.31 seconds.
+# {'subsample': 0.8, 'num_leaves': 40, 'n_estimators': 1000, 'min_split_gain': 0.5, 'max_depth': 25, 'colsample_bytree': 0.7}
+# 93.07
+# 93.42
+0.93562
+'''
+#####################################################################################
+'''
+
+
+#  Time taken: 2 hours 11 minutes and 20.16 seconds.
+# {'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 9 minutes and 4.07 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 700, 'depth': 8}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 1 minutes and 20.6 seconds.
+# {'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 2 hours 23 minutes and 57.58 seconds.
+# {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 11 minutes and 11.29 seconds.
+# {'learning_rate': 0.15, 'l2_leaf_reg': 13, 'iterations': 700, 'depth': 7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 1 minutes and 16.81 seconds.
+# {'subsample': 0.7, 'num_leaves': 50, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 15, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+# full trainning dataset
+# 0.93612
+
+'''
+#############
+'''
+#  Time taken: 2 hours 7 minutes and 48.43 seconds.
+# {'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 9 minutes and 3.15 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 6}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 1 minutes and 19.43 seconds.
+# {'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.3, 'max_depth': 20, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 2 hours 20 minutes and 57.15 seconds.
+# {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 10 minutes and 58.81 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 8}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 1 minutes and 15.86 seconds.
+# {'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+
+#leadboard 0.93620
+
+
+
+ Time taken: 0 hours 53 minutes and 15.74 seconds.
+{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+0.9777087142071016
+
+ Time taken: 0 hours 8 minutes and 16.35 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 6}
+0.9779209214596272
+
+ Time taken: 0 hours 1 minutes and 10.68 seconds.
+{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7}
+0.9776350356042904
+
+ Time taken: 0 hours 58 minutes and 41.85 seconds.
+{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+0.9772997192502187
+
+ Time taken: 0 hours 10 minutes and 9.71 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 700, 'depth': 7}
+0.9777416796541281
+
+ Time taken: 0 hours 1 minutes and 6.24 seconds.
+{'subsample': 0.8, 'num_leaves': 40, 'n_estimators': 1000, 'min_split_gain': 0.5, 'max_depth': 25, 'colsample_bytree': 0.7}
+0.9774913390016885
