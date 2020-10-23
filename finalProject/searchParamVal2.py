@@ -16,7 +16,10 @@ import matplotlib.pyplot as plt
 # model training
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score as AUC
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import StratifiedKFold
 # model evaluation
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import f1_score
@@ -38,7 +41,9 @@ import warnings
 from sklearn.ensemble import VotingClassifier
 
 warnings.filterwarnings('ignore')
-
+import sys
+sys.path.append("..")
+sys.path.append("../..")
 # In[2]:
 
 
@@ -48,12 +53,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
 
-import sys
-sys.path.append("..")
-sys.path.append("../..")
+
 # In[3]:
 
-
+from finalProject.featureEngineer import fe
 showimage = False
 
 # In[4]:
@@ -63,40 +66,73 @@ dfy = pd.read_csv("Ytrain.csv")
 dfy = dfy.drop(['Id'], 1)
 dfy.columns = ['Y']
 
-# In[5]:
-
 
 dfx = pd.read_csv("Xtrain.csv")
 
-# In[6]:
 
 
 df = pd.concat([dfx, dfy], axis=1)
 
-from finalProject.featureEngineer import fe
+
 
 df=fe(df)
+dft=fe(pd.read_csv("Xtest.csv"))
+def findBetterValidation(df,dft):
+    traindf = df
+    dft['Y']=-1
+    testdf = dft
+    traindf['target'] = 0
+    testdf['target'] = 1
+    datadf = pd.concat(( traindf, testdf ))
+    datadf = datadf.iloc[np.random.permutation(len(datadf))]
+    datadf.reset_index(drop = True, inplace = True)
+    x = datadf.drop( [ 'target','Y'], axis = 1 )
+    y = datadf.target
+    n_estimators = 100
+    clf = RandomForestClassifier(n_estimators=n_estimators, n_jobs=16,random_state=0)
+    scores = cross_val_score(clf, x, y, scoring='roc_auc', cv=5)
+    print('old val scores',scores)
+    clf = RandomForestClassifier(n_estimators=n_estimators, n_jobs=16,random_state=0)
+    predictions = np.zeros(y.shape)
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=5678)
+    cv.get_n_splits(x, y)
+    for f, (train_i, test_i) in enumerate(cv.split(x, y)):
+        x_train = x.iloc[train_i]
+        x_test = x.iloc[test_i]
+        y_train = y.iloc[train_i]
+        y_test = y.iloc[test_i]
+        clf.fit(x_train, y_train)
+        p = clf.predict_proba(x_test)[:, 1]
+        auc = AUC(y_test, p)
+        print("# AUC: {:.2%}\n".format(auc),auc)
+        print('p',p)
+        predictions[test_i] = np.abs(p-0.5)
+    x['p'] = predictions
+    x['target']=datadf.target.copy()
+    x['Y']=datadf.Y.copy()
+    index = predictions.argsort()
+    train_sorted = x.iloc[index]
+    vallen=int(len(train_sorted)*0.7)
+
+    clf = RandomForestClassifier(n_estimators=n_estimators, n_jobs=16,random_state=0)
+    scores = cross_val_score(clf, train_sorted.drop(['target','Y'],axis = 1).iloc[:vallen],
+                             train_sorted.target.iloc[:vallen], scoring='roc_auc', cv=5)
+    print('new val scores', scores)
+
+    train_sorted = train_sorted[train_sorted.target == 0]
+    return train_sorted.drop(['target'],axis = 1)
+
+df=findBetterValidation(df=df.copy(),dft=dft.copy())
+
+
 X = df.loc[:, df.columns != 'Y'].values
 Y = df['Y'].values
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state=0)
-
-# In[51]:
-
-
-clf = RandomForestClassifier(n_estimators=800, random_state=0)
-clf.fit(x_train, y_train)
-y_pred = clf.predict(x_test)
-acc = round(accuracy_score(y_test, y_pred) * 100, 2)
-acc, round(accuracy_score(clf.predict(x_train), y_train) * 100, 2)
-
-# In[ ]:
+vallen=int(0.75*len(X))
+#x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state=0)
+x_train, x_test, y_train, y_test = X[:vallen],X[vallen:],Y[:vallen],Y[vallen:]
 
 
 import catboost as cb
-
-
-# In[52]:
-
 
 def timer(start_time=None):
     if not start_time:
@@ -112,29 +148,26 @@ def timer(start_time=None):
 
 
 xgbparams = {
-    'n_estimators': [400, 700, 1000],
-    'colsample_bytree': [0.7, 0.8,0.9],
+    'n_estimators': [700,1000,1500],
+    'colsample_bytree': [0.6,0.7,0.8,0.9,1],
     'max_depth': [10,20,30,40,50],
-#     'reg_alpha': [1.1, 1.2, 1.3],
-#     'reg_lambda': [1.1, 1.2, 1.3],
-    'subsample': [0.7, 0.8, 0.9],
-    "min_child_weight" : [1,3,6],
-    "learning_rate": [0.05, 0.1,0.16]
+    'subsample': [0.7, 0.8, 0.9,1],
+    "min_child_weight" : [1,2,3,6],
+    "learning_rate": [0.03, 0.05, 0.1,0.16]
 }
 
 # In[54]:
 
 
 lgbparam_grid = {
-    'n_estimators': [400, 700, 1000],
+    'n_estimators': [700,1000,1500],
     'colsample_bytree': [0.7, 0.8,0.9],
     'max_depth': [15,20,25],
-    "num_leaves": [50,100,200,300,900,1200],
+    "num_leaves": [40,50,100,200],
 #     'reg_alpha': [1.1, 1.2, 1.3],
 #     'reg_lambda': [1.1, 1.2, 1.3],
-    'min_split_gain': [0.2,0.3, 0.4],
+    'min_split_gain': [0.2,0.3, 0.4,0.5],
     'subsample': [0.7, 0.8, 0.9],
-    'subsample_freq': [20]
 }
 # lgbm=pipeline(model,lgbparam_grid)
 
@@ -142,21 +175,19 @@ lgbparam_grid = {
 # In[55]:
 
 
-cbparams = {'depth': [4, 7, 10],
-          'learning_rate' : [0.03, 0.1, 0.15],
-         'l2_leaf_reg': [1,4,9],
-         'iterations': [300,400,500]}
+cbparams = {'depth': [4,6, 7, 8,10],'learning_rate' : [0.1, 0.15,0.2,0.3],
+         'l2_leaf_reg': [4,6,9,11,13],'iterations': [500,700,900,1100]}
 
 # In[56]:
 
 
 models = [
     XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0),
-    cb.CatBoostClassifier(random_seed=0, silent=True),
-    lgb.LGBMClassifier(random_state=0, silent=True),
+    cb.CatBoostClassifier(random_seed=0, silent=True,thread_count=2),
+    lgb.LGBMClassifier(random_state=0, silent=True,n_jobs=2),
     XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0),
-    cb.CatBoostClassifier(random_seed=1, silent=True),
-    lgb.LGBMClassifier(random_state=1, silent=True),
+    cb.CatBoostClassifier(random_seed=1, silent=True,thread_count=2),
+    lgb.LGBMClassifier(random_state=1, silent=True,n_jobs=2),
 ]
 params = [
     xgbparams,
@@ -176,7 +207,7 @@ trainedModels = []
 
 def pipeline(model, params, random_state=0):
     folds = 3
-    param_comb = 30
+    param_comb = 40
 
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
@@ -203,27 +234,10 @@ for i in range(len(models)):
     print(acc)
 
 
-# In[ ]:
-
-
 estimators=[]
 for i in range(len(trainedModels)):
     estimators.append((str(i),trainedModels[i].best_estimator_))
 
-
-# In[ ]:
-
-
-# estimators=[
-#     ('xgb',XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
-#                  **{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 3, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
-#     ('cb',cb.CatBoostClassifier(random_seed=0,silent=True,
-#                          **{'learning_rate': 0.15, 'l2_leaf_reg': 9, 'iterations': 300, 'depth': 7})),
-#     ('lgb',lgb.LGBMClassifier(random_state=0,silent = True,
-#                       **{'subsample_freq': 20, 'subsample': 0.9, 'reg_lambda': 1.2, 'reg_alpha': 1.1, 'num_leaves': 1200, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 25, 'colsample_bytree': 0.7})),
-# ]
-
-# In[ ]:
 
 
 votingC = VotingClassifier(estimators=estimators, voting='soft', n_jobs=4)
@@ -232,35 +246,4 @@ y_pred = votingC.predict(x_test)
 acc = round(accuracy_score(y_test, y_pred) * 100, 2)
 print(acc)
 
-# In[ ]:
 
-
-#  Time taken: 0 hours 9 minutes and 53.61 seconds.
-# {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 3, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
-# 93.05
-
-#  Time taken: 0 hours 4 minutes and 34.76 seconds.
-# {'learning_rate': 0.15, 'l2_leaf_reg': 9, 'iterations': 300, 'depth': 7}
-# 92.82
-#  Time taken: 0 hours 7 minutes and 51.83 seconds.
-# {'subsample_freq': 20, 'subsample': 0.9, 'reg_lambda': 1.2, 'reg_alpha': 1.1, 'num_leaves': 1200, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 25, 'colsample_bytree': 0.7}
-# 92.74
-# [LightGBM] [Warning] Unknown parameter: verbose_eval
-# 93.19
-
-
-# In[ ]:
-
-
-#  Time taken: 0 hours 36 minutes and 32.98 seconds.
-# {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 3, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
-# 93.05
-
-#  Time taken: 0 hours 49 minutes and 33.57 seconds.
-# {'learning_rate': 0.15, 'l2_leaf_reg': 9, 'iterations': 300, 'depth': 7}
-# 92.82
-
-#  Time taken: 0 hours 35 minutes and 11.3 seconds.
-# {'subsample_freq': 20, 'subsample': 0.8, 'num_leaves': 50, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 15, 'colsample_bytree': 0.8}
-# 92.89
-# 93.2
