@@ -191,7 +191,7 @@ for i in range(len(models)):
     trainedModels.append(pipeline(models[i],params[i],seeds[i]))
     random_search=trainedModels[-1]
     print(random_search.best_params_)
-    print(random_search.scorer_)
+    print(random_search.best_score_)
     # y_pred=random_search.predict(x_test)
     # acc = round(accuracy_score(y_test, y_pred) * 100, 2)
     #print(acc)

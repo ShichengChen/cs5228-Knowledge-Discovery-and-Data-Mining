@@ -284,15 +284,15 @@ if __name__ == '__main__':
         ('1',XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
                      **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9})),
         ('2',cb.CatBoostClassifier(random_seed=0,silent=True,
-                     **{'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 700, 'depth': 8})),
+                     **{'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 6})),
         ('3',lgb.LGBMClassifier(random_state=0,silent = True,
-                     **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7})),
+                     **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.3, 'max_depth': 20, 'colsample_bytree': 0.7})),
         ('4', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
                      **{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
         ('5', cb.CatBoostClassifier(random_seed=1, silent=True,
-                     **{'learning_rate': 0.15, 'l2_leaf_reg': 13, 'iterations': 700, 'depth': 7})),
+                     **{'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 8})),
         ('6', lgb.LGBMClassifier(random_state=1, silent=True,
-                     **{'subsample': 0.7, 'num_leaves': 50, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 15, 'colsample_bytree': 0.7})),
+                     **{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7})),
     ]
 
     # In[ ]:
@@ -438,3 +438,32 @@ if __name__ == '__main__':
 # {'subsample': 0.7, 'num_leaves': 50, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 15, 'colsample_bytree': 0.7}
 # make_scorer(roc_auc_score, needs_threshold=True)
 # full trainning dataset
+# 0.93612
+
+'''
+#############
+'''
+#  Time taken: 2 hours 7 minutes and 48.43 seconds.
+# {'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 9 minutes and 3.15 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 6}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 1 minutes and 19.43 seconds.
+# {'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.3, 'max_depth': 20, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 2 hours 20 minutes and 57.15 seconds.
+# {'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 10 minutes and 58.81 seconds.
+# {'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 8}
+# make_scorer(roc_auc_score, needs_threshold=True)
+#
+#  Time taken: 0 hours 1 minutes and 15.86 seconds.
+# {'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7}
+# make_scorer(roc_auc_score, needs_threshold=True)
+
