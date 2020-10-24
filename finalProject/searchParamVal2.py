@@ -212,7 +212,7 @@ def pipeline(model, params, random_state=0):
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
     random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
-                                       scoring='roc_auc', n_jobs=8, cv=skf.split(x_train, y_train),
+                                       scoring='acc', n_jobs=8, cv=skf.split(x_train, y_train),
                                        verbose=0, random_state=random_state)
 
     # Here we go

@@ -112,10 +112,11 @@ def timer(start_time=None):
 xgbparams = {
     'n_estimators': [700,1000,1500],
     'colsample_bytree': [0.6,0.7,0.8,0.9,1],
-    'max_depth': [10,20,30,40,50],
+    'max_depth': [10,30,50],
     'subsample': [0.7, 0.8, 0.9,1],
     "min_child_weight" : [1,2,3,6],
-    "learning_rate": [0.03, 0.05, 0.1,0.16]
+    #"learning_rate": [0.03, 0.05, 0.1,0.16]
+    "learning_rate": [0.03,0.05, 0.1,0.16]
 }
 
 # In[54]:
@@ -124,23 +125,18 @@ xgbparams = {
 lgbparam_grid = {
     'n_estimators': [700,1000,1500],
     'colsample_bytree': [0.7, 0.8,0.9],
-    'max_depth': [15,20,25],
-    "num_leaves": [40,50,100,200],
-#     'reg_alpha': [1.1, 1.2, 1.3],
-#     'reg_lambda': [1.1, 1.2, 1.3],
+    'max_depth': [15,20,25,50,75],
+    #"num_leaves": [40,50,100,200],
+    "num_leaves": [300,900,1200],
+    "learning_rate" : [0.01,0.05,0.1],
     'min_split_gain': [0.2,0.3, 0.4,0.5],
     'subsample': [0.7, 0.8, 0.9],
 }
-# lgbm=pipeline(model,lgbparam_grid)
+#lgbm=pipeline(model,lgbparam_grid)
 
 
-# In[55]:
-
-
-cbparams = {'depth': [4,6, 7, 8,10],'learning_rate' : [0.1, 0.15,0.2,0.3],
-         'l2_leaf_reg': [4,6,9,11,13],'iterations': [500,700,900,1100]}
-
-# In[56]:
+cbparams = {'depth': [4,6, 7, 8,10],'learning_rate' : [0.03,0.1, 0.15,0.2,0.3],
+         'l2_leaf_reg': [1,4,6,9,11,13],'iterations': [500,700,900,1100]}
 
 
 models = [
@@ -174,7 +170,7 @@ def pipeline(model, params, random_state=0):
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
     random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
-                                       scoring='roc_auc', n_jobs=8, cv=skf.split(x_train, y_train),
+                                       scoring='accuracy', n_jobs=8, cv=skf.split(x_train, y_train),
                                        verbose=0, random_state=random_state)
 
     # Here we go

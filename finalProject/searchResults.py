@@ -123,7 +123,7 @@ xgbparams = {
 lgbparam_grid = {
     'n_estimators': [700,1000,1500],
     'colsample_bytree': [0.7, 0.8,0.9],
-    'max_depth': [15,20,25],
+    'max_depth': [15,20,25,50,75],
     "num_leaves": [40,50,100,200],
 #     'reg_alpha': [1.1, 1.2, 1.3],
 #     'reg_lambda': [1.1, 1.2, 1.3],
@@ -136,8 +136,8 @@ lgbparam_grid = {
 # In[55]: 
 
 
-cbparams = {'depth': [4,6, 7, 8,10],'learning_rate' : [0.1, 0.15,0.2,0.3],
-         'l2_leaf_reg': [4,6,9,11,13],'iterations': [500,700,900,1100]}
+cbparams = {'depth': [4,6, 7, 8,10],'learning_rate' : [0.03,0.1, 0.15,0.2,0.3],
+         'l2_leaf_reg': [1,4,6,9,11,13],'iterations': [500,700,900,1100]}
 
 # In[56]:
 
@@ -173,7 +173,7 @@ def pipeline(model, params, random_state=0):
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
     random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
-                                       scoring='roc_auc', n_jobs=8, cv=skf.split(x_train, y_train),
+                                       scoring='accuracy', n_jobs=8, cv=skf.split(x_train, y_train),
                                        verbose=0, random_state=random_state)
 
     # Here we go

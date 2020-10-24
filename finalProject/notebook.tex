@@ -281,313 +281,250 @@
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} data manipulation}
-        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
-        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
-        
-        \PY{c+c1}{\PYZsh{} visualization}
-        \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sb}
-        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
-        \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
-        
-        \PY{c+c1}{\PYZsh{} model training}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{GridSearchCV}
-        
-        \PY{c+c1}{\PYZsh{} model evaluation}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{confusion\PYZus{}matrix}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{f1\PYZus{}score}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{accuracy\PYZus{}score}
-        
-        \PY{c+c1}{\PYZsh{} classifiers}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{naive\PYZus{}bayes} \PY{k+kn}{import} \PY{n}{GaussianNB} \PY{c+c1}{\PYZsh{} naive bayes}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{neighbors} \PY{k+kn}{import} \PY{n}{KNeighborsClassifier} \PY{c+c1}{\PYZsh{} KNN}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{LogisticRegression} \PY{c+c1}{\PYZsh{} logistic regression}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k+kn}{import} \PY{n}{DecisionTreeClassifier} \PY{c+c1}{\PYZsh{} decision Tree}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{RandomForestClassifier} 
-        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{GradientBoostingClassifier}
-        
-        \PY{c+c1}{\PYZsh{} ignore warnings}
-        \PY{k+kn}{import} \PY{n+nn}{warnings}
-        \PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}115}]:} \PY{c+c1}{\PYZsh{} data manipulation}
+          \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+          \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+          \PY{k+kn}{import} \PY{n+nn}{math}
+          \PY{c+c1}{\PYZsh{} visualization}
+          \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sb}
+          \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+          \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+          
+          \PY{c+c1}{\PYZsh{} model training}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{GridSearchCV}
+          
+          \PY{c+c1}{\PYZsh{} model evaluation}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{confusion\PYZus{}matrix}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{f1\PYZus{}score}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{accuracy\PYZus{}score}
+          \PY{k+kn}{from} \PY{n+nn}{datetime} \PY{k+kn}{import} \PY{n}{datetime}
+          \PY{c+c1}{\PYZsh{} classifiers}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{naive\PYZus{}bayes} \PY{k+kn}{import} \PY{n}{GaussianNB} \PY{c+c1}{\PYZsh{} naive bayes}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{neighbors} \PY{k+kn}{import} \PY{n}{KNeighborsClassifier} \PY{c+c1}{\PYZsh{} KNN}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{LogisticRegression} \PY{c+c1}{\PYZsh{} logistic regression}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k+kn}{import} \PY{n}{DecisionTreeClassifier} \PY{c+c1}{\PYZsh{} decision Tree}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{RandomForestClassifier} 
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{GradientBoostingClassifier}
+          \PY{k+kn}{from} \PY{n+nn}{xgboost} \PY{k+kn}{import} \PY{n}{XGBClassifier}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{StratifiedKFold}\PY{p}{,}\PY{n}{RandomizedSearchCV}
+          \PY{k+kn}{import} \PY{n+nn}{lightgbm} \PY{k}{as} \PY{n+nn}{lgb}
+          \PY{k+kn}{from} \PY{n+nn}{datetime} \PY{k+kn}{import} \PY{n}{datetime}
+          \PY{c+c1}{\PYZsh{} ignore warnings}
+          \PY{k+kn}{import} \PY{n+nn}{warnings}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{VotingClassifier}
+          \PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
-        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
-        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
-        \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sb}
+{\color{incolor}In [{\color{incolor}116}]:} \PY{c+c1}{\PYZsh{}}
+          \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+          \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+          \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+          \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sb}
+          \PY{k+kn}{from} \PY{n+nn}{dateutil}\PY{n+nn}{.}\PY{n+nn}{parser} \PY{k+kn}{import} \PY{n}{parse}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{dfy}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ytrain.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-        \PY{n}{dfy} \PY{o}{=} \PY{n}{dfy}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
-        \PY{n}{dfy}\PY{o}{.}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+{\color{incolor}In [{\color{incolor}117}]:} \PY{n}{showimage}\PY{o}{=}\PY{k+kc}{True}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{dfx}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Xtrain.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}142}]:} \PY{n}{dfy}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ytrain.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{dfy} \PY{o}{=} \PY{n}{dfy}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+          \PY{n}{dfy}\PY{o}{.}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{dfx}\PY{p}{,} \PY{n}{dfy}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}143}]:} \PY{n}{dfx}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Xtrain.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}144}]:} \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{dfx}\PY{p}{,} \PY{n}{dfy}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}145}]:} \PY{c+c1}{\PYZsh{}df = pd.read\PYZus{}csv(\PYZdq{}Xtest.csv\PYZdq{})}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}146}]:} \PY{n}{df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}6}]:}    Id                            Name            City State    Zip  \textbackslash{}
-        0   0                 NPE Realty, LLC  Pembroke Pines    FL  33027   
-        1   1        KEVCO  CONSTRUCTION, LLC           SANDY    UT  84094   
-        2   2            EAST L A SHOE REPAIR     LOS ANGELES    CA  90022   
-        3   3           RUSSLER, DANIEL C, MD            LODI    WI  53555   
-        4   4  AFFORDABLE FAMILY DENISTRY LLC         LEBANON    MO  65536   
-        
-                                    Bank BankState   NAICS ApprovalDate ApprovalFY  \textbackslash{}
-        0  TD BANK, NATIONAL ASSOCIATION        DE  334516    16-Apr-10       2010   
-        1      ZIONS FIRST NATIONAL BANK        UT  236115    30-Jan-10       2010   
-        2     BANK OF AMERICA NATL ASSOC        NC  811430    29-Jul-02       2002   
-        3     ASSOCIATED BANK NATL ASSOC        WI       0    10-Jun-94       1994   
-        4                  COMMERCE BANK        MO  621210     6-Feb-06       2006   
-        
-           {\ldots}  FranchiseCode  UrbanRural  RevLineCr  LowDoc  DisbursementDate  \textbackslash{}
-        0  {\ldots}              0           1          N       N          1-May-10   
-        1  {\ldots}              0           1          N       N          1-Feb-10   
-        2  {\ldots}              1           1          Y       N         31-Aug-02   
-        3  {\ldots}              1           0          N       N         31-Jul-94   
-        4  {\ldots}              1           1          T       N         31-Mar-06   
-        
-           DisbursementGross  BalanceGross          GrAppv        SBA\_Appv  Y  
-        0     \$2,000,000.00         \$0.00   \$2,000,000.00   \$1,500,000.00   0  
-        1        \$17,000.00         \$0.00      \$17,000.00      \$17,000.00   1  
-        2        \$17,000.00         \$0.00      \$17,000.00       \$8,500.00   0  
-        3       \$137,000.00         \$0.00     \$137,000.00     \$123,300.00   0  
-        4        \$46,665.00         \$0.00      \$25,000.00      \$12,500.00   0  
-        
-        [5 rows x 25 columns]
+{\color{outcolor}Out[{\color{outcolor}146}]:}    Id                            Name            City State    Zip  \textbackslash{}
+          0   0                 NPE Realty, LLC  Pembroke Pines    FL  33027   
+          1   1        KEVCO  CONSTRUCTION, LLC           SANDY    UT  84094   
+          2   2            EAST L A SHOE REPAIR     LOS ANGELES    CA  90022   
+          3   3           RUSSLER, DANIEL C, MD            LODI    WI  53555   
+          4   4  AFFORDABLE FAMILY DENISTRY LLC         LEBANON    MO  65536   
+          
+                                      Bank BankState   NAICS ApprovalDate ApprovalFY  \textbackslash{}
+          0  TD BANK, NATIONAL ASSOCIATION        DE  334516    16-Apr-10       2010   
+          1      ZIONS FIRST NATIONAL BANK        UT  236115    30-Jan-10       2010   
+          2     BANK OF AMERICA NATL ASSOC        NC  811430    29-Jul-02       2002   
+          3     ASSOCIATED BANK NATL ASSOC        WI       0    10-Jun-94       1994   
+          4                  COMMERCE BANK        MO  621210     6-Feb-06       2006   
+          
+             {\ldots}  FranchiseCode  UrbanRural  RevLineCr  LowDoc  DisbursementDate  \textbackslash{}
+          0  {\ldots}              0           1          N       N          1-May-10   
+          1  {\ldots}              0           1          N       N          1-Feb-10   
+          2  {\ldots}              1           1          Y       N         31-Aug-02   
+          3  {\ldots}              1           0          N       N         31-Jul-94   
+          4  {\ldots}              1           1          T       N         31-Mar-06   
+          
+             DisbursementGross  BalanceGross          GrAppv        SBA\_Appv  Y  
+          0     \$2,000,000.00         \$0.00   \$2,000,000.00   \$1,500,000.00   0  
+          1        \$17,000.00         \$0.00      \$17,000.00      \$17,000.00   1  
+          2        \$17,000.00         \$0.00      \$17,000.00       \$8,500.00   0  
+          3       \$137,000.00         \$0.00     \$137,000.00     \$123,300.00   0  
+          4        \$46,665.00         \$0.00      \$25,000.00      \$12,500.00   0  
+          
+          [5 rows x 25 columns]
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{} dataset[\PYZsq{}ds\PYZsq{}]=dataset[\PYZdq{}ds\PYZdq{}].apply(str)}
-        \PY{c+c1}{\PYZsh{} splits = dataset[\PYZsq{}ds\PYZsq{}].str.split(\PYZdq{} \PYZdq{})}
-        \PY{c+c1}{\PYZsh{} dataset[\PYZsq{}ds\PYZsq{}] = splits.str[0]}
-        \PY{c+c1}{\PYZsh{} splits = dataset[\PYZsq{}ds\PYZsq{}].str.split(\PYZdq{}\PYZhy{}\PYZdq{})}
-        \PY{c+c1}{\PYZsh{} dataset[\PYZsq{}ds\PYZsq{}] = splits.str[0]+\PYZdq{}\PYZhy{}\PYZdq{}+splits.str[1]+\PYZdq{}\PYZhy{}\PYZdq{}+splits.str[2]}
-        \PY{c+c1}{\PYZsh{} dataset.head()}
-        \PY{c+c1}{\PYZsh{} dataset[\PYZsq{}ds\PYZsq{}]=dataset[\PYZsq{}ds\PYZsq{}][dataset[\PYZsq{}ds\PYZsq{}]\PYZgt{}\PYZsq{}2000\PYZhy{}01\PYZhy{}01\PYZsq{}]}
-        \PY{c+c1}{\PYZsh{} len(dataset)}
+{\color{incolor}In [{\color{incolor}147}]:} \PY{k+kn}{from} \PY{n+nn}{uszipcode} \PY{k+kn}{import} \PY{n}{SearchEngine}
+          \PY{n}{search} \PY{o}{=} \PY{n}{SearchEngine}\PY{p}{(}\PY{n}{simple\PYZus{}zipcode}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+          \PY{n}{state}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Zip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{State}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:}\PY{n}{search}\PY{o}{.}\PY{n}{by\PYZus{}zipcode}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{.}\PY{n}{state}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{state}\PY{p}{)}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{State}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{State}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{n}{state}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{19\PYZhy{}Oct\PYZhy{}20}\PY{l+s+s1}{\PYZsq{}}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
-        \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-        \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-0
+Series([], Name: Zip, dtype: int64)
 
     \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}148}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LowDoc}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LowDoc}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{notna}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LowDoc}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{!=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{N}\PY{l+s+s1}{\PYZsq{}}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LowDoc}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LowDoc}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{nan}\PY{l+s+s1}{\PYZsq{}}
+          
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RevLineCr}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RevLineCr}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{notna}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RevLineCr}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{!=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{N}\PY{l+s+s1}{\PYZsq{}}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RevLineCr}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RevLineCr}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{nan}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}150}]:} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ApprovalDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+\end{Verbatim}
+
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}9}]:} 0        10
-        1        10
-        2        02
-        3        94
-        4        06
-                 ..
-        49995    03
-        49996    04
-        49997    92
-        49998    96
-        49999    97
-        Name: DisbursementDate, Length: 50000, dtype: object
+{\color{outcolor}Out[{\color{outcolor}150}]:} (119, 0)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
-         \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}151}]:} \PY{k+kn}{import} \PY{n+nn}{datetime}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{o}{+}\PY{l+m+mi}{2000}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2000} \PY{k}{if} \PY{n}{x}\PY{o}{\PYZlt{}}\PY{l+m+mi}{25} \PY{k}{else} \PY{n}{x}\PY{o}{+}\PY{l+m+mi}{1900}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2000}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}152}]:} \PY{k}{def} \PY{n+nf}{parsedate}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+              \PY{n}{dt}\PY{o}{=}\PY{n}{parse}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+              \PY{n}{d}\PY{o}{=}\PY{p}{(}\PY{n}{dt}\PY{o}{\PYZhy{}}\PY{n}{parse}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{19\PYZhy{}Oct\PYZhy{}20}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{days}
+              \PY{k}{if}\PY{p}{(}\PY{n}{d}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{dt}\PY{o}{=}\PY{n}{datetime}\PY{o}{.}\PY{n}{datetime}\PY{p}{(}\PY{n}{dt}\PY{o}{.}\PY{n}{year}\PY{o}{\PYZhy{}}\PY{l+m+mi}{100}\PY{p}{,}\PY{n}{dt}\PY{o}{.}\PY{n}{month}\PY{p}{,}\PY{n}{dt}\PY{o}{.}\PY{n}{day}\PY{p}{)}
+              \PY{k}{return} \PY{n}{dt}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x} \PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{df}\PY{p}{)} 
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)} 
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalFY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalFY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{D}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalFY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalFY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2000}
+{\color{incolor}In [{\color{incolor}153}]:} \PY{n}{DisbursementDate} \PY{o}{=} \PYZbs{}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{notna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PYZbs{}
+          \PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{parsedate}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}
+          
+          \PY{n}{ApprovalDate} \PY{o}{=} \PYZbs{}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{notna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PYZbs{}
+          \PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{parsedate}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{dollor}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementGross}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GrAppv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SBA\PYZus{}Appv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-         \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{dollor}\PY{p}{:}
-             \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
-             \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-             \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} 
-             \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} 
-             \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{100}
+{\color{incolor}In [{\color{incolor}155}]:} \PY{n}{difdays}\PY{o}{=}\PY{p}{(}\PY{n}{DisbursementDate}\PY{o}{\PYZhy{}}\PY{n}{ApprovalDate}\PY{p}{)}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{o}{.}\PY{n}{days}\PY{p}{)}
+          \PY{n}{mdifdays}\PY{o}{=}\PY{n}{difdays}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mdifdays}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{mdifdays}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GrAppv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SBA\PYZus{}Appv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}16}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{clustermap}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_15_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{df}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-<class 'pandas.core.frame.DataFrame'>
-RangeIndex: 50000 entries, 0 to 49999
-Data columns (total 26 columns):
-Id                   50000 non-null int64
-Name                 49999 non-null object
-City                 50000 non-null object
-State                50000 non-null object
-Zip                  50000 non-null int64
-Bank                 49924 non-null object
-BankState            49923 non-null object
-NAICS                50000 non-null int64
-ApprovalDate         50000 non-null object
-ApprovalFY           50000 non-null int64
-Term                 50000 non-null int64
-NoEmp                50000 non-null int64
-NewExist             49993 non-null float64
-CreateJob            50000 non-null int64
-RetainedJob          50000 non-null int64
-FranchiseCode        50000 non-null int64
-UrbanRural           50000 non-null int64
-RevLineCr            49847 non-null object
-LowDoc               49828 non-null object
-DisbursementDate     50000 non-null int64
-DisbursementGross    50000 non-null int64
-BalanceGross         50000 non-null object
-GrAppv               50000 non-null int64
-SBA\_Appv             50000 non-null int64
-Y                    50000 non-null int64
-dif                  50000 non-null int64
-dtypes: float64(1), int64(16), object(9)
-memory usage: 9.9+ MB
+mdifdays 47.0
 
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NAICS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}19}]:} \PY{c+c1}{\PYZsh{}df[\PYZdq{}NoEmp\PYZdq{}]=np.log(1+df[\PYZdq{}NoEmp\PYZdq{}])}
-         \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Term}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}20}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NoEmp}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NoEmp}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NoEmp}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}21}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{3}
+{\color{incolor}In [{\color{incolor}156}]:} \PY{n}{disDatenan} \PY{o}{=} \PYZbs{}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PYZbs{}
+          \PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{parse}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{+}\PY{n}{datetime}\PY{o}{.}\PY{n}{timedelta}\PY{p}{(}\PY{n}{days}\PY{o}{=}\PY{n}{mdifdays}\PY{p}{)}\PY{p}{)}
+          
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{parse}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{19\PYZhy{}Oct\PYZhy{}21}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{n}{disDatenan}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DisbursementDate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{notna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{n}{DisbursementDate}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-7
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}22}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NewExist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}158}]:} \PY{k}{assert} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{parse}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{19\PYZhy{}Oct\PYZhy{}20}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:}\PY{n}{x}\PY{o}{.}\PY{n}{days}\PY{p}{)}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{o}{==}\PY{l+m+mi}{0}
 \end{Verbatim}
 
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}23}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CreateJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CreateJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CreateJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}159}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{parsedate}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_22_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}24}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RetainedJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RetainedJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RetainedJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)} 
+{\color{incolor}In [{\color{incolor}160}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{before}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{p}{(}\PY{n}{parse}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{01\PYZhy{}Dec\PYZhy{}2007}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{\PYZgt{}}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{recession}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{p}{(}\PY{n}{parse}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{01\PYZhy{}Dec\PYZhy{}2007}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZam{}} \PYZbs{}
+                           \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{n}{parse}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{30\PYZhy{}Jun\PYZhy{}2009}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+          \PY{c+c1}{\PYZsh{}df[\PYZsq{}nowadays\PYZsq{}]=((parse(\PYZdq{}01\PYZhy{}Sep\PYZhy{}2010\PYZdq{})\PYZlt{}=df[\PYZsq{}DisDate\PYZsq{}])).astype(int)}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{nowadays}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{p}{(}\PY{n}{parse}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{30\PYZhy{}Jun\PYZhy{}2009}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}161}]:} \PY{n}{basedate}\PY{o}{=}\PY{n}{parse}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{20\PYZhy{}Sep\PYZhy{}1968}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Appday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{basedate}\PY{p}{)}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:}\PY{n}{x}\PY{o}{.}\PY{n}{days}\PY{p}{)}
+          
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Disday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{basedate}\PY{p}{)}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:}\PY{n}{x}\PY{o}{.}\PY{n}{days}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}164}]:} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalFY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}165}]:} \PY{n}{dollor}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementGross}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GrAppv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SBA\PYZus{}Appv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+          \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{dollor}\PY{p}{:}
+              \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+              \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+              \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} 
+              \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} 
+              \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{100}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}166}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GrAppv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SBA\PYZus{}Appv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}167}]:} \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{clustermap}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
@@ -597,22 +534,35 @@ memory usage: 9.9+ MB
     { \hspace*{\fill} \\}
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}25}]:} \PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{o}{.}\PY{n}{FranchiseCode}\PY{o}{\PYZgt{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{FranchiseCode}\PY{o}{=}\PY{l+m+mi}{2}
+{\color{incolor}In [{\color{incolor}168}]:} \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NAICS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}26}]:} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{UrbanRural}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{)}\PY{o}{|}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{UrbanRural}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{|}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{UrbanRural}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}169}]:} \PY{c+c1}{\PYZsh{}df[\PYZdq{}NoEmp\PYZdq{}]=np.log(1+df[\PYZdq{}NoEmp\PYZdq{}])}
+          \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Term}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}26}]:} 50000
-\end{Verbatim}
-            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}27}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x} \PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{UrbanRural}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{df}\PY{p}{)} 
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)} 
+{\color{incolor}In [{\color{incolor}170}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NoEmp}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NoEmp}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NoEmp}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
@@ -622,33 +572,33 @@ memory usage: 9.9+ MB
     { \hspace*{\fill} \\}
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}28}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FranchiseCode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{!=}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FranchiseCode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{!=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FranchiseCode}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FranchiseCode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{!=}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FranchiseCode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{!=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{2}
+{\color{incolor}In [{\color{incolor}171}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{0}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-2725
+7
 
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}29}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FranchiseCode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}172}]:} \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NewExist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}29}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x154461cd8cf8>
-\end{Verbatim}
-            
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_1.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}30}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x} \PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{df}\PY{p}{)} 
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)} 
+{\color{incolor}In [{\color{incolor}173}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CreateJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CreateJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CreateJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
@@ -658,77 +608,146 @@ memory usage: 9.9+ MB
     { \hspace*{\fill} \\}
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}31}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
-             \PY{n+nb}{print}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-Id 50000
-Name 48756
-City 9488
-State 51
-Zip 13794
-Bank 2783
-BankState 52
-NAICS 1118
-ApprovalDate 6934
-ApprovalFY 46
-Term 325
-NoEmp 207
-NewExist 4
-CreateJob 98
-RetainedJob 144
-FranchiseCode 3
-UrbanRural 3
-RevLineCr 4
-LowDoc 7
-DisbursementDate 46
-DisbursementGross 14120
-BalanceGross 1
-GrAppv 3951
-SBA\_Appv 6048
-Y 2
-dif 4756
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}32}]:} \PY{c+c1}{\PYZsh{}just remove some features which are not easy to use}
-         \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Bank}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}33}]:} \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{City}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Zip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ApprovalDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BalanceGross}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}34}]:} \PY{n}{sb}\PY{o}{.}\PY{n}{clustermap}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}174}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RetainedJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RetainedJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RetainedJob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)} 
 \end{Verbatim}
 
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_30_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}35}]:} \PY{n}{df}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}175}]:} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{UrbanRural}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{)}\PY{o}{|}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{UrbanRural}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{|}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{UrbanRural}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}175}]:} 50000
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}176}]:} \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x} \PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{UrbanRural}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{df}\PY{p}{)} 
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)} 
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}177}]:} \PY{c+c1}{\PYZsh{}df[df.FranchiseCode\PYZgt{}1].FranchiseCode=2}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}178}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{o}{\PYZti{}}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FranchiseCode}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          \PY{c+c1}{\PYZsh{}df[\PYZsq{}FranchiseCode\PYZsq{}][df[\PYZsq{}FranchiseCode\PYZsq{}]==1]=0}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FranchiseCode}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FranchiseCode}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{2}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2725
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}179}]:} \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FranchiseCode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}180}]:} \PY{k}{if} \PY{n}{showimage} \PY{o+ow}{and} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x} \PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{df}\PY{p}{)} 
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)} 
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_36_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}181}]:} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{EMI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DisbursementGross}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Term}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+          
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SequBS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{State}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{==}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BankState}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+          
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{portion}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SBA\PYZus{}Appv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GrAppv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+          
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{realstate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Term}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZgt{}}\PY{l+m+mi}{240}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}182}]:} \PY{n}{nai}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+m+mi}{11}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Agriculture}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{21}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mining}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{22}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Utilities}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{23}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Construction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{31}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manufacturing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+               \PY{l+m+mi}{32}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manufacturing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+               \PY{l+m+mi}{33}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manufacturing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{42}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wholesale}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{44}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Retail}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{45}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Retail}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{48}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Transportation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+               \PY{l+m+mi}{49}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Transportation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{51}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Information}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{52}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{53}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Real estate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+               \PY{l+m+mi}{54}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Professional}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{55}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Management}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{56}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Administrative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{61}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Educational}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+               \PY{l+m+mi}{62}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Health}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{71}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Arts}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{72}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Accommodation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{81}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Other}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{92}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Public}\PY{l+s+s1}{\PYZsq{}}
+               \PY{p}{\PYZcb{}}
+          \PY{k}{def} \PY{n+nf}{NAICS}\PY{p}{(}\PY{n}{a}\PY{p}{)}\PY{p}{:}
+              \PY{k}{if}\PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{a}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{10000} \PY{o+ow}{in} \PY{n}{nai}\PY{p}{)}\PY{p}{:}\PY{k}{return} \PY{n}{nai}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{a}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{10000}\PY{p}{]}
+              \PY{k}{return} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{no}\PY{l+s+s2}{\PYZdq{}}
+          \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NAICS2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{row}\PY{p}{:} \PY{n}{NAICS}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NAICS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{} print(np.sum(df[\PYZsq{}NAICS2\PYZsq{}]==\PYZsq{}no\PYZsq{}))}
+          
+          \PY{c+c1}{\PYZsh{} for i,j in nai.items():}
+          \PY{c+c1}{\PYZsh{}     print(j,np.sum(df[\PYZsq{}NAICS2\PYZsq{}]==j))}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}183}]:} \PY{c+c1}{\PYZsh{} for i in df.columns:}
+          \PY{c+c1}{\PYZsh{}     print(i,df[i].nunique())}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}184}]:} \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Bank}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{City}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Zip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BalanceGross}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}185}]:} \PY{k}{if} \PY{n}{showimage}\PY{p}{:}
+              \PY{n}{sb}\PY{o}{.}\PY{n}{clustermap}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+              \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}186}]:} \PY{n}{df}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 <class 'pandas.core.frame.DataFrame'>
 RangeIndex: 50000 entries, 0 to 49999
-Data columns (total 20 columns):
-Id                   50000 non-null int64
+Data columns (total 26 columns):
 State                50000 non-null object
 BankState            49923 non-null object
 NAICS                50000 non-null int64
-ApprovalFY           50000 non-null int64
 Term                 50000 non-null int64
 NoEmp                50000 non-null float64
 NewExist             50000 non-null float64
@@ -736,54 +755,396 @@ CreateJob            50000 non-null float64
 RetainedJob          50000 non-null float64
 FranchiseCode        50000 non-null int64
 UrbanRural           50000 non-null int64
-RevLineCr            49847 non-null object
-LowDoc               49828 non-null object
-DisbursementDate     50000 non-null int64
+RevLineCr            50000 non-null object
+LowDoc               50000 non-null object
 DisbursementGross    50000 non-null int64
 GrAppv               50000 non-null int64
 SBA\_Appv             50000 non-null int64
 Y                    50000 non-null int64
+recession            50000 non-null int64
+nowadays             50000 non-null int64
+Appday               50000 non-null int64
+Disday               50000 non-null int64
 dif                  50000 non-null int64
-dtypes: float64(4), int64(12), object(4)
-memory usage: 7.6+ MB
+EMI                  50000 non-null float64
+SequBS               50000 non-null int64
+portion              50000 non-null float64
+realstate            50000 non-null int64
+NAICS2               50000 non-null object
+dtypes: float64(6), int64(15), object(5)
+memory usage: 9.9+ MB
 
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}36}]:} \PY{n}{tostr}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FranchiseCode}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{UrbanRural}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-         \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{tostr}\PY{p}{:}
-             \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}187}]:} \PY{n}{tostr} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FranchiseCode}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NewExist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{UrbanRural}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{State}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BankState}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RevLineCr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                   \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LowDoc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NAICS2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+          \PY{n}{extra}\PY{o}{=}\PY{p}{[}\PY{p}{]}
+          \PY{n}{noneedforonehot}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{nowadays}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{recession}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{realstate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SequBS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+          \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{tostr}\PY{p}{:}
+              \PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}37}]:} \PY{n}{dum}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{State}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BankState}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RevLineCr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LowDoc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{+}\PY{n}{tostr}
-         \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{dum}\PY{p}{:}
-             \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,}\PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{prefix}\PY{o}{=}\PY{n}{i}\PY{p}{)}\PY{p}{]}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
-         \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{dum}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}188}]:} \PY{n}{df}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}38}]:} \PY{n}{X}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{columns} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}
+{\color{incolor}In [{\color{incolor}189}]:} \PY{n}{df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}189}]:}     NAICS  Term     NoEmp  CreateJob  RetainedJob  DisbursementGross   GrAppv  \textbackslash{}
+          0  334516   130  3.258097   1.098612     0.000000            2000000  2000000   
+          1  236115    33  1.945910   0.693147     1.386294              17000    17000   
+          2  811430    60  0.693147   0.693147     0.693147              17000    17000   
+          3       0   160  0.693147   0.000000     0.000000             137000   137000   
+          4  621210   101  1.098612   2.079442     1.098612              46665    25000   
+          
+             SBA\_Appv  Y  recession  {\ldots}  NAICS2\_Mining  NAICS2\_Other  \textbackslash{}
+          0   1500000  0          0  {\ldots}              0             0   
+          1     17000  1          0  {\ldots}              0             0   
+          2      8500  0          0  {\ldots}              0             1   
+          3    123300  0          0  {\ldots}              0             0   
+          4     12500  0          0  {\ldots}              0             0   
+          
+             NAICS2\_Professional  NAICS2\_Public  NAICS2\_Real estate  NAICS2\_Retail  \textbackslash{}
+          0                    0              0                   0              0   
+          1                    0              0                   0              0   
+          2                    0              0                   0              0   
+          3                    0              0                   0              0   
+          4                    0              0                   0              0   
+          
+             NAICS2\_Transportation  NAICS2\_Utilities  NAICS2\_Wholesale  NAICS2\_no  
+          0                      0                 0                 0          0  
+          1                      0                 0                 0          0  
+          2                      0                 0                 0          0  
+          3                      0                 0                 0          1  
+          4                      0                 0                 0          0  
+          
+          [5 rows x 158 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}190}]:} \PY{n}{df}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50000 entries, 0 to 49999
+Columns: 158 entries, NAICS to NAICS2\_no
+dtypes: float64(5), int64(13), uint8(140)
+memory usage: 13.5 MB
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}191}]:} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}191}]:} array(['NAICS', 'Term', 'NoEmp', 'CreateJob', 'RetainedJob',
+                 'DisbursementGross', 'GrAppv', 'SBA\_Appv', 'Y', 'recession',
+                 'nowadays', 'Appday', 'Disday', 'dif', 'EMI', 'SequBS', 'portion',
+                 'realstate', 'State\_AK', 'State\_AL', 'State\_AR', 'State\_AZ',
+                 'State\_CA', 'State\_CO', 'State\_CT', 'State\_DC', 'State\_DE',
+                 'State\_FL', 'State\_GA', 'State\_HI', 'State\_IA', 'State\_ID',
+                 'State\_IL', 'State\_IN', 'State\_KS', 'State\_KY', 'State\_LA',
+                 'State\_MA', 'State\_MD', 'State\_ME', 'State\_MI', 'State\_MN',
+                 'State\_MO', 'State\_MS', 'State\_MT', 'State\_NC', 'State\_ND',
+                 'State\_NE', 'State\_NH', 'State\_NJ', 'State\_NM', 'State\_NV',
+                 'State\_NY', 'State\_OH', 'State\_OK', 'State\_OR', 'State\_PA',
+                 'State\_RI', 'State\_SC', 'State\_SD', 'State\_TN', 'State\_TX',
+                 'State\_UT', 'State\_VA', 'State\_VT', 'State\_WA', 'State\_WI',
+                 'State\_WV', 'State\_WY', 'BankState\_AK', 'BankState\_AL',
+                 'BankState\_AR', 'BankState\_AZ', 'BankState\_CA', 'BankState\_CO',
+                 'BankState\_CT', 'BankState\_DC', 'BankState\_DE', 'BankState\_FL',
+                 'BankState\_GA', 'BankState\_HI', 'BankState\_IA', 'BankState\_ID',
+                 'BankState\_IL', 'BankState\_IN', 'BankState\_KS', 'BankState\_KY',
+                 'BankState\_LA', 'BankState\_MA', 'BankState\_MD', 'BankState\_ME',
+                 'BankState\_MI', 'BankState\_MN', 'BankState\_MO', 'BankState\_MS',
+                 'BankState\_MT', 'BankState\_NC', 'BankState\_ND', 'BankState\_NE',
+                 'BankState\_NH', 'BankState\_NJ', 'BankState\_NM', 'BankState\_NV',
+                 'BankState\_NY', 'BankState\_OH', 'BankState\_OK', 'BankState\_OR',
+                 'BankState\_PA', 'BankState\_PR', 'BankState\_RI', 'BankState\_SC',
+                 'BankState\_SD', 'BankState\_TN', 'BankState\_TX', 'BankState\_UT',
+                 'BankState\_VA', 'BankState\_VT', 'BankState\_WA', 'BankState\_WI',
+                 'BankState\_WV', 'BankState\_WY', 'BankState\_nan', 'NewExist\_0.0',
+                 'NewExist\_1.0', 'NewExist\_2.0', 'FranchiseCode\_0',
+                 'FranchiseCode\_1', 'FranchiseCode\_2', 'UrbanRural\_0',
+                 'UrbanRural\_1', 'UrbanRural\_2', 'RevLineCr\_N', 'RevLineCr\_Y',
+                 'RevLineCr\_nan', 'LowDoc\_N', 'LowDoc\_Y', 'LowDoc\_nan',
+                 'NAICS2\_Accommodation', 'NAICS2\_Administrative',
+                 'NAICS2\_Agriculture', 'NAICS2\_Arts', 'NAICS2\_Construction',
+                 'NAICS2\_Educational', 'NAICS2\_Finance', 'NAICS2\_Health',
+                 'NAICS2\_Information', 'NAICS2\_Management', 'NAICS2\_Manufacturing',
+                 'NAICS2\_Mining', 'NAICS2\_Other', 'NAICS2\_Professional',
+                 'NAICS2\_Public', 'NAICS2\_Real estate', 'NAICS2\_Retail',
+                 'NAICS2\_Transportation', 'NAICS2\_Utilities', 'NAICS2\_Wholesale',
+                 'NAICS2\_no'], dtype=object)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{n}{X}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{columns} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}
          \PY{n}{Y}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}
          \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{test\PYZus{}size} \PY{o}{=} \PY{l+m+mf}{0.25}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}39}]:} \PY{n}{clf} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
-         \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
-         \PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
-         \PY{n}{acc} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{accuracy\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
-         \PY{n}{acc}
+
+        ---------------------------------------------------------------------------
+
+        KeyError                                  Traceback (most recent call last)
+
+        \textasciitilde{}/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py in get\_loc(self, key, method, tolerance)
+       2896             try:
+    -> 2897                 return self.\_engine.get\_loc(key)
+       2898             except KeyError:
+
+
+        pandas/\_libs/index.pyx in pandas.\_libs.index.IndexEngine.get\_loc()
+
+
+        pandas/\_libs/index.pyx in pandas.\_libs.index.IndexEngine.get\_loc()
+
+
+        pandas/\_libs/hashtable\_class\_helper.pxi in pandas.\_libs.hashtable.PyObjectHashTable.get\_item()
+
+
+        pandas/\_libs/hashtable\_class\_helper.pxi in pandas.\_libs.hashtable.PyObjectHashTable.get\_item()
+
+
+        KeyError: 'Y'
+
+        
+    During handling of the above exception, another exception occurred:
+
+
+        KeyError                                  Traceback (most recent call last)
+
+        <ipython-input-56-b083489a8b45> in <module>()
+          1 X=df.loc[:, df.columns != 'Y'].values
+    ----> 2 Y=df['Y'].values
+          3 x\_train, x\_test, y\_train, y\_test = train\_test\_split(X, Y, test\_size = 0.25, random\_state=0)
+
+
+        \textasciitilde{}/anaconda3/lib/python3.6/site-packages/pandas/core/frame.py in \_\_getitem\_\_(self, key)
+       2993             if self.columns.nlevels > 1:
+       2994                 return self.\_getitem\_multilevel(key)
+    -> 2995             indexer = self.columns.get\_loc(key)
+       2996             if is\_integer(indexer):
+       2997                 indexer = [indexer]
+
+
+        \textasciitilde{}/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py in get\_loc(self, key, method, tolerance)
+       2897                 return self.\_engine.get\_loc(key)
+       2898             except KeyError:
+    -> 2899                 return self.\_engine.get\_loc(self.\_maybe\_cast\_indexer(key))
+       2900         indexer = self.get\_indexer([key], method=method, tolerance=tolerance)
+       2901         if indexer.ndim > 1 or indexer.size > 1:
+
+
+        pandas/\_libs/index.pyx in pandas.\_libs.index.IndexEngine.get\_loc()
+
+
+        pandas/\_libs/index.pyx in pandas.\_libs.index.IndexEngine.get\_loc()
+
+
+        pandas/\_libs/hashtable\_class\_helper.pxi in pandas.\_libs.hashtable.PyObjectHashTable.get\_item()
+
+
+        pandas/\_libs/hashtable\_class\_helper.pxi in pandas.\_libs.hashtable.PyObjectHashTable.get\_item()
+
+
+        KeyError: 'Y'
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{clf} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{800}\PY{p}{,}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+        \PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+        \PY{n}{acc} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{accuracy\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n}{acc}\PY{p}{,}\PY{n+nb}{round}\PY{p}{(}\PY{n}{accuracy\PYZus{}score}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
 \end{Verbatim}
 
 
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}39}]:} 89.36
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{catboost} \PY{k}{as} \PY{n+nn}{cb}
 \end{Verbatim}
-            
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{def} \PY{n+nf}{timer}\PY{p}{(}\PY{n}{start\PYZus{}time}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+            \PY{k}{if} \PY{o+ow}{not} \PY{n}{start\PYZus{}time}\PY{p}{:}
+                \PY{n}{start\PYZus{}time} \PY{o}{=} \PY{n}{datetime}\PY{o}{.}\PY{n}{now}\PY{p}{(}\PY{p}{)}
+                \PY{k}{return} \PY{n}{start\PYZus{}time}
+            \PY{k}{elif} \PY{n}{start\PYZus{}time}\PY{p}{:}
+                \PY{n}{thour}\PY{p}{,} \PY{n}{temp\PYZus{}sec} \PY{o}{=} \PY{n+nb}{divmod}\PY{p}{(}\PY{p}{(}\PY{n}{datetime}\PY{o}{.}\PY{n}{now}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{start\PYZus{}time}\PY{p}{)}\PY{o}{.}\PY{n}{total\PYZus{}seconds}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{3600}\PY{p}{)}
+                \PY{n}{tmin}\PY{p}{,} \PY{n}{tsec} \PY{o}{=} \PY{n+nb}{divmod}\PY{p}{(}\PY{n}{temp\PYZus{}sec}\PY{p}{,} \PY{l+m+mi}{60}\PY{p}{)}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{ Time taken: }\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s1}{ hours }\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s1}{ minutes and }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{ seconds.}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{thour}\PY{p}{,} \PY{n}{tmin}\PY{p}{,} \PY{n+nb}{round}\PY{p}{(}\PY{n}{tsec}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{xgbparams} \PY{o}{=} \PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{400}\PY{p}{,} \PY{l+m+mi}{700}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{colsample\PYZus{}bytree}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{30}\PY{p}{,}\PY{l+m+mi}{40}\PY{p}{,}\PY{l+m+mi}{50}\PY{p}{]}\PY{p}{,}
+        \PY{c+c1}{\PYZsh{}     \PYZsq{}reg\PYZus{}alpha\PYZsq{}: [1.1, 1.2, 1.3],}
+        \PY{c+c1}{\PYZsh{}     \PYZsq{}reg\PYZus{}lambda\PYZsq{}: [1.1, 1.2, 1.3],}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.9}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{min\PYZus{}child\PYZus{}weight}\PY{l+s+s2}{\PYZdq{}} \PY{p}{:} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{learning\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,}\PY{l+m+mf}{0.16}\PY{p}{]}
+        \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{lgbparam\PYZus{}grid} \PY{o}{=} \PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{400}\PY{p}{,} \PY{l+m+mi}{700}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{colsample\PYZus{}bytree}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{25}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{num\PYZus{}leaves}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{50}\PY{p}{,}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{200}\PY{p}{,}\PY{l+m+mi}{300}\PY{p}{,}\PY{l+m+mi}{900}\PY{p}{,}\PY{l+m+mi}{1200}\PY{p}{]}\PY{p}{,}
+        \PY{c+c1}{\PYZsh{}     \PYZsq{}reg\PYZus{}alpha\PYZsq{}: [1.1, 1.2, 1.3],}
+        \PY{c+c1}{\PYZsh{}     \PYZsq{}reg\PYZus{}lambda\PYZsq{}: [1.1, 1.2, 1.3],}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}split\PYZus{}gain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{l+m+mf}{0.4}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.9}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample\PYZus{}freq}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{20}\PY{p}{]}
+        \PY{p}{\PYZcb{}}
+        \PY{c+c1}{\PYZsh{}lgbm=pipeline(model,lgbparam\PYZus{}grid)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{cbparams} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}
+                  \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.03}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.15}\PY{p}{]}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{l2\PYZus{}leaf\PYZus{}reg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{9}\PY{p}{]}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{iterations}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{300}\PY{p}{,}\PY{l+m+mi}{500}\PY{p}{]}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{models} \PY{o}{=} \PY{p}{[}
+            \PY{n}{XGBClassifier}\PY{p}{(}\PY{n}{objective}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary:logistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{silent}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{nthread}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{verbosity}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,}
+            \PY{c+c1}{\PYZsh{} XGBClassifier(objective=\PYZsq{}binary:logistic\PYZsq{},silent=True, nthread=2,seed=1),}
+            \PY{n}{cb}\PY{o}{.}\PY{n}{CatBoostClassifier}\PY{p}{(}\PY{n}{random\PYZus{}seed}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{silent}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+            \PY{c+c1}{\PYZsh{} cb.CatBoostClassifier(random\PYZus{}seed=1),}
+            \PY{n}{lgb}\PY{o}{.}\PY{n}{LGBMClassifier}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{silent} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+            \PY{c+c1}{\PYZsh{} lgb.LGBMClassifier(random\PYZus{}state=1),}
+        
+        \PY{p}{]}
+        \PY{n}{params}\PY{o}{=}\PY{p}{[}
+                \PY{n}{cbparams}\PY{p}{,}
+                \PY{c+c1}{\PYZsh{}cbparams}
+                \PY{n}{xgbparams}\PY{p}{,}
+                \PY{c+c1}{\PYZsh{}xgbparams,}
+                \PY{n}{lgbparam\PYZus{}grid}\PY{p}{,}
+                \PY{c+c1}{\PYZsh{}lgbparam\PYZus{}grid,}
+                
+               \PY{p}{]}
+        \PY{c+c1}{\PYZsh{}seeds=[0,1,0,1,0,1]}
+        \PY{n}{seeds}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}
+        \PY{n}{trainedModels}\PY{o}{=}\PY{p}{[}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{def} \PY{n+nf}{pipeline}\PY{p}{(}\PY{n}{model}\PY{p}{,}\PY{n}{params}\PY{p}{,}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+            \PY{n}{folds} \PY{o}{=} \PY{l+m+mi}{3}
+            \PY{n}{param\PYZus{}comb} \PY{o}{=} \PY{l+m+mi}{10}
+        
+            \PY{n}{skf} \PY{o}{=} \PY{n}{StratifiedKFold}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{n}{folds}\PY{p}{,} \PY{n}{shuffle} \PY{o}{=} \PY{k+kc}{True}\PY{p}{,} \PY{n}{random\PYZus{}state} \PY{o}{=} \PY{n}{random\PYZus{}state}\PY{p}{)}
+        
+            \PY{n}{random\PYZus{}search} \PY{o}{=} \PY{n}{RandomizedSearchCV}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{param\PYZus{}distributions}\PY{o}{=}\PY{n}{params}\PY{p}{,} \PY{n}{n\PYZus{}iter}\PY{o}{=}\PY{n}{param\PYZus{}comb}\PY{p}{,} 
+                                               \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{roc\PYZus{}auc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{skf}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,}\PY{n}{y\PYZus{}train}\PY{p}{)}\PY{p}{,} 
+                                               \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} Here we go}
+            \PY{n}{start\PYZus{}time} \PY{o}{=} \PY{n}{timer}\PY{p}{(}\PY{k+kc}{None}\PY{p}{)} \PY{c+c1}{\PYZsh{} timing starts from this point for \PYZdq{}start\PYZus{}time\PYZdq{} variable}
+            \PY{n}{random\PYZus{}search}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,}\PY{n}{y\PYZus{}train}\PY{p}{)}
+            \PY{n}{timer}\PY{p}{(}\PY{n}{start\PYZus{}time}\PY{p}{)} \PY{c+c1}{\PYZsh{} timing ends here for \PYZdq{}start\PYZus{}time\PYZdq{} variable}
+            \PY{k}{return} \PY{n}{random\PYZus{}search}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} for i in range(len(models)):}
+        \PY{c+c1}{\PYZsh{}     trainedModels.append(pipeline(models[i],params[i],seeds[i]))}
+        \PY{c+c1}{\PYZsh{}     random\PYZus{}search=trainedModels[\PYZhy{}1]}
+        \PY{c+c1}{\PYZsh{}     print(random\PYZus{}search.best\PYZus{}params\PYZus{})}
+        \PY{c+c1}{\PYZsh{}     y\PYZus{}pred=random\PYZus{}search.predict(x\PYZus{}test)}
+        \PY{c+c1}{\PYZsh{}     acc = round(accuracy\PYZus{}score(y\PYZus{}test, y\PYZus{}pred) * 100, 2)}
+        \PY{c+c1}{\PYZsh{}     print(acc)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} estimators=[]}
+        \PY{c+c1}{\PYZsh{} for i in range(len(trainedModels)):}
+        \PY{c+c1}{\PYZsh{}     estimators.append((str(i),trainedModels[i].best\PYZus{}estimator\PYZus{}))}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{estimators}\PY{o}{=}\PY{p}{[}
+            \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{XGBClassifier}\PY{p}{(}\PY{n}{objective}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary:logistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{silent}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{nthread}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{verbosity}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}
+                         \PY{o}{*}\PY{o}{*}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.9}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{700}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}child\PYZus{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{10}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{colsample\PYZus{}bytree}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.7}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+            \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{cb}\PY{o}{.}\PY{n}{CatBoostClassifier}\PY{p}{(}\PY{n}{random\PYZus{}seed}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{silent}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+                                 \PY{o}{*}\PY{o}{*}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.15}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{l2\PYZus{}leaf\PYZus{}reg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{9}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{iterations}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{300}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{7}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+            \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lgb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{lgb}\PY{o}{.}\PY{n}{LGBMClassifier}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{silent} \PY{o}{=} \PY{k+kc}{True}\PY{p}{,}
+                              \PY{o}{*}\PY{o}{*}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample\PYZus{}freq}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.9}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}lambda}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{1.2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{1.1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num\PYZus{}leaves}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1200}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{700}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}split\PYZus{}gain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.4}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{25}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{colsample\PYZus{}bytree}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.7}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+        \PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{votingC} \PY{o}{=} \PY{n}{VotingClassifier}\PY{p}{(}\PY{n}{estimators}\PY{o}{=}\PY{n}{estimators}\PY{p}{,}\PY{n}{voting}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{soft}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+        \PY{n}{votingC} \PY{o}{=} \PY{n}{votingC}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+        \PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{votingC}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+        \PY{n}{acc} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{accuracy\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{acc}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}  Time taken: 0 hours 9 minutes and 53.61 seconds.}
+        \PY{c+c1}{\PYZsh{} \PYZob{}\PYZsq{}subsample\PYZsq{}: 0.9, \PYZsq{}n\PYZus{}estimators\PYZsq{}: 700, \PYZsq{}min\PYZus{}child\PYZus{}weight\PYZsq{}: 3, \PYZsq{}max\PYZus{}depth\PYZsq{}: 10, \PYZsq{}learning\PYZus{}rate\PYZsq{}: 0.05, \PYZsq{}colsample\PYZus{}bytree\PYZsq{}: 0.7\PYZcb{}}
+        \PY{c+c1}{\PYZsh{} 93.05}
+        
+        \PY{c+c1}{\PYZsh{}  Time taken: 0 hours 4 minutes and 34.76 seconds.}
+        \PY{c+c1}{\PYZsh{} \PYZob{}\PYZsq{}learning\PYZus{}rate\PYZsq{}: 0.15, \PYZsq{}l2\PYZus{}leaf\PYZus{}reg\PYZsq{}: 9, \PYZsq{}iterations\PYZsq{}: 300, \PYZsq{}depth\PYZsq{}: 7\PYZcb{}}
+        \PY{c+c1}{\PYZsh{} 92.82}
+        \PY{c+c1}{\PYZsh{}  Time taken: 0 hours 7 minutes and 51.83 seconds.}
+        \PY{c+c1}{\PYZsh{} \PYZob{}\PYZsq{}subsample\PYZus{}freq\PYZsq{}: 20, \PYZsq{}subsample\PYZsq{}: 0.9, \PYZsq{}reg\PYZus{}lambda\PYZsq{}: 1.2, \PYZsq{}reg\PYZus{}alpha\PYZsq{}: 1.1, \PYZsq{}num\PYZus{}leaves\PYZsq{}: 1200, \PYZsq{}n\PYZus{}estimators\PYZsq{}: 700, \PYZsq{}min\PYZus{}split\PYZus{}gain\PYZsq{}: 0.4, \PYZsq{}max\PYZus{}depth\PYZsq{}: 25, \PYZsq{}colsample\PYZus{}bytree\PYZsq{}: 0.7\PYZcb{}}
+        \PY{c+c1}{\PYZsh{} 92.74}
+        \PY{c+c1}{\PYZsh{} [LightGBM] [Warning] Unknown parameter: verbose\PYZus{}eval}
+        \PY{c+c1}{\PYZsh{} 93.19}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}  Time taken: 0 hours 36 minutes and 32.98 seconds.}
+        \PY{c+c1}{\PYZsh{} \PYZob{}\PYZsq{}subsample\PYZsq{}: 0.9, \PYZsq{}n\PYZus{}estimators\PYZsq{}: 700, \PYZsq{}min\PYZus{}child\PYZus{}weight\PYZsq{}: 3, \PYZsq{}max\PYZus{}depth\PYZsq{}: 10, \PYZsq{}learning\PYZus{}rate\PYZsq{}: 0.05, \PYZsq{}colsample\PYZus{}bytree\PYZsq{}: 0.7\PYZcb{}}
+        \PY{c+c1}{\PYZsh{} 93.05}
+        
+        \PY{c+c1}{\PYZsh{}  Time taken: 0 hours 49 minutes and 33.57 seconds.}
+        \PY{c+c1}{\PYZsh{} \PYZob{}\PYZsq{}learning\PYZus{}rate\PYZsq{}: 0.15, \PYZsq{}l2\PYZus{}leaf\PYZus{}reg\PYZsq{}: 9, \PYZsq{}iterations\PYZsq{}: 300, \PYZsq{}depth\PYZsq{}: 7\PYZcb{}}
+        \PY{c+c1}{\PYZsh{} 92.82}
+        
+        \PY{c+c1}{\PYZsh{}  Time taken: 0 hours 35 minutes and 11.3 seconds.}
+        \PY{c+c1}{\PYZsh{} \PYZob{}\PYZsq{}subsample\PYZus{}freq\PYZsq{}: 20, \PYZsq{}subsample\PYZsq{}: 0.8, \PYZsq{}num\PYZus{}leaves\PYZsq{}: 50, \PYZsq{}n\PYZus{}estimators\PYZsq{}: 700, \PYZsq{}min\PYZus{}split\PYZus{}gain\PYZsq{}: 0.4, \PYZsq{}max\PYZus{}depth\PYZsq{}: 15, \PYZsq{}colsample\PYZus{}bytree\PYZsq{}: 0.8\PYZcb{}}
+        \PY{c+c1}{\PYZsh{} 92.89}
+        \PY{c+c1}{\PYZsh{} 93.2}
+\end{Verbatim}
+
+
 
     % Add a bibliography block to the postdoc
     

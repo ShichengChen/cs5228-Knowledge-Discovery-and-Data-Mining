@@ -93,8 +93,8 @@ def fe(df):
     df['Appday'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
 
     df['Disday'] = (df['DisDate'] - basedate).apply(lambda x: x.days)
-
-    df.drop(['DisbursementDate', 'DisDate', 'ApprovalDate', 'ApprovalFY'], axis=1, inplace=True)
+    df['difday'] = df['Disday'] - df['Appday']
+    df.drop(['DisbursementDate', 'DisDate', 'ApprovalDate', 'ApprovalFY','Disday'], axis=1, inplace=True)
 
 
 
@@ -270,7 +270,7 @@ if __name__ == '__main__':
 
     # In[52]:
 
- 
+
     def timer(start_time=None):
         if not start_time:
             start_time = datetime.now()
@@ -283,17 +283,17 @@ if __name__ == '__main__':
 
     estimators=[
         ('1',XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
-                     **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9})),
+                     **{'subsample': 0.9, 'n_estimators': 1000, 'min_child_weight': 6, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.6})),
         ('2',cb.CatBoostClassifier(random_seed=0,silent=True,
-                     **{'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 6})),
+                     **{'learning_rate': 0.1, 'l2_leaf_reg': 4, 'iterations': 1100, 'depth': 6})),
         ('3',lgb.LGBMClassifier(random_state=0,silent = True,
-                     **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.5, 'max_depth': 20, 'colsample_bytree': 0.7})),
+                     **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.3, 'max_depth': 20, 'colsample_bytree': 0.7})),
         ('4', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
-                     **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9})),
+                     **{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
         ('5', cb.CatBoostClassifier(random_seed=1, silent=True,
-                     **{'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 700, 'depth': 7})),
+                     **{'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 7})),
         ('6', lgb.LGBMClassifier(random_state=1, silent=True,
-                     **{'subsample': 0.8, 'num_leaves': 40, 'n_estimators': 1000, 'min_split_gain': 0.5, 'max_depth': 25, 'colsample_bytree': 0.7})),
+                     **{'subsample': 0.9, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.4, 'max_depth': 20, 'colsample_bytree': 0.7})),
     ]
 
     # In[ ]:
