@@ -208,3 +208,76 @@
 {'subsample': 0.9, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.4, 'max_depth': 20, 'colsample_bytree': 0.7}
 0.9790735032184578
 #leadboard 0.93607
+
+
+
+ Time taken: 2 hours 33 minutes and 31.15 seconds.
+{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9}
+0.93442
+
+ Time taken: 0 hours 10 minutes and 19.2 seconds.
+{'learning_rate': 0.15, 'l2_leaf_reg': 4, 'iterations': 900, 'depth': 6}
+0.93456
+
+ Time taken: 0 hours 4 minutes and 44.48 seconds.
+{'subsample': 0.9, 'num_leaves': 300, 'n_estimators': 1000, 'min_split_gain': 0.2, 'max_depth': 20, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+0.93254
+
+ Time taken: 2 hours 28 minutes and 57.24 seconds.
+{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 3, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7}
+0.93444
+
+ Time taken: 0 hours 10 minutes and 17.1 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 13, 'iterations': 900, 'depth': 8}
+0.93458
+
+ Time taken: 0 hours 4 minutes and 25.05 seconds.
+{'subsample': 0.8, 'num_leaves': 300, 'n_estimators': 1500, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.01, 'colsample_bytree': 0.7}
+0.9325
+
+#0.93587
+#hard vote and remove light gbm, acc decrease to 0.93550
+
+
+
+ Time taken: 0 hours 50 minutes and 46.48 seconds.
+{'learning_rate': 0.2, 'l2_leaf_reg': 6, 'iterations': 1100, 'depth': 4}
+0.93492
+^[[A^[[A
+ Time taken: 0 hours 17 minutes and 53.32 seconds.
+{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 1000, 'min_split_gain': 0.4, 'max_depth': 20, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+0.93344
+
+ Time taken: 0 hours 49 minutes and 8.63 seconds.
+{'learning_rate': 0.15, 'l2_leaf_reg': 4, 'iterations': 700, 'depth': 6}
+0.93468
+
+ Time taken: 0 hours 18 minutes and 58.22 seconds.
+{'subsample': 0.9, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.01, 'colsample_bytree': 0.7}
+0.93314
+
+
+ Time taken: 1 hours 39 minutes and 41.68 seconds.
+{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.8}
+0.93386
+
+ Time taken: 0 hours 49 minutes and 18.62 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 13, 'iterations': 1100, 'depth': 8}
+0.93484
+
+ Time taken: 0 hours 17 minutes and 6.21 seconds.
+{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.3, 'max_depth': 50, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+0.93346
+
+ Time taken: 1 hours 50 minutes and 15.42 seconds.
+{'subsample': 1, 'n_estimators': 1500, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7}
+0.93408
+
+ Time taken: 0 hours 48 minutes and 1.38 seconds.
+{'learning_rate': 0.2, 'l2_leaf_reg': 11, 'iterations': 700, 'depth': 7}
+0.93454
+
+ Time taken: 0 hours 17 minutes and 37.47 seconds.
+{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.2, 'max_depth': 75, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+0.93324
+#old features

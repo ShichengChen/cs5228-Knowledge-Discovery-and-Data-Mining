@@ -1,3 +1,8 @@
+# coding: utf-8
+
+# In[1]:
+
+
 # data manipulation
 import pandas as pd
 import numpy as np
@@ -5,6 +10,9 @@ import math
 # visualization
 import seaborn as sb
 import matplotlib.pyplot as plt
+
+#get_ipython().run_line_magic('matplotlib', 'inline')
+
 # model training
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
@@ -13,37 +21,35 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import f1_score
 from sklearn.metrics import accuracy_score
-from datetime import datetime
+
 # classifiers
-from sklearn.naive_bayes import GaussianNB # naive bayes
-from sklearn.neighbors import KNeighborsClassifier # KNN
-from sklearn.linear_model import LogisticRegression # logistic regression
-from sklearn.tree import DecisionTreeClassifier # decision Tree
+from sklearn.naive_bayes import GaussianNB  # naive bayes
+from sklearn.neighbors import KNeighborsClassifier  # KNN
+from sklearn.linear_model import LogisticRegression  # logistic regression
+from sklearn.tree import DecisionTreeClassifier  # decision Tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from xgboost import XGBClassifier
-from sklearn.model_selection import StratifiedKFold,RandomizedSearchCV
+from sklearn.model_selection import StratifiedKFold, RandomizedSearchCV
 import lightgbm as lgb
 from datetime import datetime
 # ignore warnings
 import warnings
 from sklearn.ensemble import VotingClassifier
-warnings.filterwarnings('ignore')
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
-from dateutil.parser import parse
-
 
 # In[3]:
 from uszipcode import SearchEngine
+
 
 showimage = False
 
 
 def fe(df):
-
     search = SearchEngine(simple_zipcode=True)
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
     print(state)
@@ -54,49 +60,39 @@ def fe(df):
     df["RevLineCr"][(df["RevLineCr"].notna()) & (df["RevLineCr"] != 'Y')] = 'N'
     df["RevLineCr"][df["RevLineCr"].isna()] = 'nan'
 
-    print(np.sum(df["DisbursementDate"].isna()),np.sum(df["ApprovalDate"].isna()),)
-    import datetime
-    def parsedate(x):
-        dt = parse(x)
-        d = (dt - parse('19-Oct-20')).days
-        if (d >= 0):
-            dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
-        return dt
+
+    df["DisbursementDate"][df["DisbursementDate"].isna()] = '19-Oct-20'
+
     # In[11]:
 
-    DisbursementDate = \
-        df['DisbursementDate'][df["DisbursementDate"].notna()]. \
-            apply(lambda x: parsedate(x))
 
-    ApprovalDate = \
-        df['ApprovalDate'][df["DisbursementDate"].notna()]. \
-            apply(lambda x: parsedate(x))
-    difdays = (DisbursementDate - ApprovalDate).apply(lambda x: x.days)
-    mdifdays = difdays.median()
-    print('mdifdays', mdifdays)
+    df['DisbursementDate'] = df["DisbursementDate"].apply(str)
+    df['DisbursementDate'] = (df['DisbursementDate'].str.split("-").str[-1])
+    assert(np.sum(df["DisbursementDate"].isna())==0)
+    df['DisbursementDate'] = df['DisbursementDate'].astype(float)
+    df['DisbursementDate'] = df['DisbursementDate'].astype(int)
 
-    disDatenan = \
-        df['ApprovalDate'][df["DisbursementDate"].isna()]. \
-            apply(lambda x: parse(x) + datetime.timedelta(days=mdifdays))
-    df['DisDate'] = parse('19-Oct-21')
-    df['DisDate'][df["DisbursementDate"].isna()] = disDatenan
-    df['DisDate'][df["DisbursementDate"].notna()] = DisbursementDate
-    assert np.sum((df['DisDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
-    df['ApprovalDate'] = df['ApprovalDate'].apply(lambda x: parsedate(x))
-    df['before'] = ((parse("01-Dec-2007") > df['DisDate'])).astype(int)
-    df['recession'] = ((parse("01-Dec-2007") <= df['DisDate']) & \
-                       (df['DisDate'] <= parse("30-Jun-2009"))).astype(int)
-    # df['nowadays']=((parse("01-Sep-2010")<=df['DisDate'])).astype(int)
-    df['nowadays'] = ((parse("30-Jun-2009") <= df['DisDate'])).astype(int)
-    basedate = parse("20-Sep-1968")
+    # In[13]:
 
-    df['Appday'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
 
-    df['Disday'] = (df['DisDate'] - basedate).apply(lambda x: x.days)
-    df['difday'] = df['Disday'] - df['Appday']
-    df['Appyear'] = df['ApprovalDate'].apply(lambda x: x.year)
-    df.drop(['DisbursementDate', 'DisDate', 'ApprovalDate', 'ApprovalFY', 'Disday', 'Appday'], axis=1, inplace=True)
+    df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: x + 2000 if x < 25 else x + 1900)
 
+    # In[14]:
+
+
+    if showimage:
+        sb.countplot(x='DisbursementDate', data=df)
+        plt.show()
+
+    # In[15]:
+
+
+    df['ApprovalFY'] = df['ApprovalFY'].str.replace(r'\D', '')
+    df["ApprovalFY"][df["ApprovalFY"].isna()] = df["ApprovalFY"][df["ApprovalFY"].notna()].median()
+
+    df['ApprovalFY'] = df['ApprovalFY'].astype(int)
+
+    # In[16]:
 
 
     dollor = ['DisbursementGross', 'GrAppv', 'SBA_Appv']
@@ -199,6 +195,8 @@ def fe(df):
     df['SequBS'] = (df['State'] == df['BankState']).astype(int)
     df['portion'] = df['SBA_Appv'] / df['GrAppv']
     df['realstate'] = (df['Term'] > 240).astype(int)
+    df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
+    df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
 
 
     nai = {11: 'Agriculture', 21: 'Mining', 22: 'Utilities', 23: 'Construction', 31: 'Manufacturing',
@@ -220,7 +218,8 @@ def fe(df):
     #     print(i, df[i].nunique())
 
 
-    df = df.drop(['Bank', 'Name', 'City', 'Zip', 'BalanceGross', 'Id'], 1)
+    df = df.drop(['Bank','Name','City','Zip','ApprovalDate','BalanceGross','Id'], 1)
+
     # In[44]:
 
 
@@ -228,16 +227,15 @@ def fe(df):
         sb.clustermap(df.corr(), annot=True)
         plt.show()
 
-    tostr = ['FranchiseCode', 'NewExist', 'UrbanRural', 'RevLineCr',
-             'LowDoc', 'NAICS2',
-             'State', 'BankState',
-             ]
-    # extra = []
-    # df = df.drop(extra, 1)
-
+    tostr = ['FranchiseCode', 'NewExist', 'UrbanRural', 'State', 'BankState', 'RevLineCr',
+             'LowDoc', 'NAICS2']
+    extra = []
     noneedforonehot = ['nowadays', 'recession', 'realstate', 'SequBS']
     for i in tostr:
         df[i] = df[i].astype(str)
+    for i in tostr:
+        df[i] = df[i].astype(str)
+
 
     df = pd.get_dummies(df)
 
@@ -284,23 +282,23 @@ if __name__ == '__main__':
 
     estimators=[
         ('1',XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
-                     **{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.9})),
+                     **{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.8})),
         ('2',cb.CatBoostClassifier(random_seed=0,silent=True,
-                     **{'learning_rate': 0.15, 'l2_leaf_reg': 4, 'iterations': 900, 'depth': 6})),
+                     **{'learning_rate': 0.1, 'l2_leaf_reg': 13, 'iterations': 1100, 'depth': 8})),
         ('3',lgb.LGBMClassifier(random_state=0,silent = True,
-                     **{'subsample': 0.9, 'num_leaves': 300, 'n_estimators': 1000, 'min_split_gain': 0.2, 'max_depth': 20, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+                     **{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.3, 'max_depth': 50, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
         ('4', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
-                     **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 3, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+                     **{'subsample': 1, 'n_estimators': 1500, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
         ('5', cb.CatBoostClassifier(random_seed=1, silent=True,
-                     **{'learning_rate': 0.1, 'l2_leaf_reg': 13, 'iterations': 900, 'depth': 8})),
+                     **{'learning_rate': 0.2, 'l2_leaf_reg': 11, 'iterations': 700, 'depth': 7})),
         ('6', lgb.LGBMClassifier(random_state=1, silent=True,
-                     **{'subsample': 0.8, 'num_leaves': 300, 'n_estimators': 1500, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+                     **{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.2, 'max_depth': 75, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
     ]
 
     # In[ ]:
 
 
-    votingC = VotingClassifier(estimators=estimators, voting='hard', n_jobs=6)
+    votingC = VotingClassifier(estimators=estimators, voting='soft', n_jobs=6)
     # votingC = votingC.fit(x_train, y_train)
     # y_pred = votingC.predict(x_test)
     # acc = round(accuracy_score(y_test, y_pred) * 100, 2)
@@ -314,4 +312,3 @@ if __name__ == '__main__':
     y_pred=y_pred.tolist()
     ans=pd.DataFrame(list(zip(id, y_pred)), columns=['Id', 'ChargeOff'])
     ans.to_csv("ans.csv",index=False)
-

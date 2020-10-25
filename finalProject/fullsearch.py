@@ -53,7 +53,8 @@ import seaborn as sb
 
 # In[3]:
 
-from finalProject.featureEngineer import fe
+#from finalProject.featureEngineer import fe
+from finalProject.bestFeatureBefore import fe
 showimage = False
 
 # In[4]:
@@ -112,7 +113,7 @@ def timer(start_time=None):
 xgbparams = {
     'n_estimators': [700,1000,1500],
     'colsample_bytree': [0.6,0.7,0.8,0.9,1],
-    'max_depth': [10,30,50],
+    'max_depth': [5,10,15,30,50],
     'subsample': [0.7, 0.8, 0.9,1],
     "min_child_weight" : [1,2,3,6],
     #"learning_rate": [0.03, 0.05, 0.1,0.16]
@@ -127,7 +128,7 @@ lgbparam_grid = {
     'colsample_bytree': [0.7, 0.8,0.9],
     'max_depth': [15,20,25,50,75],
     #"num_leaves": [40,50,100,200],
-    "num_leaves": [300,900,1200],
+    "num_leaves": [50,100,200,300,900,1200],
     "learning_rate" : [0.01,0.05,0.1],
     'min_split_gain': [0.2,0.3, 0.4,0.5],
     'subsample': [0.7, 0.8, 0.9],
@@ -157,15 +158,15 @@ params = [
 ]
 # seeds=[0,1,0,1,0,1]
 seeds = [0, 0, 0,1,1,1]
+param_combo=[40,200,200,40,200,200]
 trainedModels = []
 
 
 # In[ ]:
 
 
-def pipeline(model, params, random_state=0):
+def pipeline(model, params, random_state=0,param_comb=40):
     folds = 5
-    param_comb = 40
 
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
@@ -184,7 +185,8 @@ def pipeline(model, params, random_state=0):
 
 
 for i in range(len(models)):
-    trainedModels.append(pipeline(models[i],params[i],seeds[i]))
+    #if(i==0 or i==3):continue
+    trainedModels.append(pipeline(models[i],params[i],seeds[i],param_combo[i]))
     random_search=trainedModels[-1]
     print(random_search.best_params_)
     print(random_search.best_score_)
