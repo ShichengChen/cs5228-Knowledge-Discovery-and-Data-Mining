@@ -163,7 +163,7 @@ params = [
     lgbparam_grid,
 ]
 # seeds=[0,1,0,1,0,1]
-seeds = [0, 0, 0,1,1,1,1,1,1]
+seeds = [0, 0, 0,1,1,1,2,2,2]
 param_combo=[40,200,200,40,200,200,40,200,200]
 trainedModels = []
 
