@@ -219,7 +219,7 @@ def fe(df):
     df['realstate'] = (df['Term'] > 240).astype(int)
     # df['recession'] = ((2007 <= df['Appyear']) & (df['Appyear'] <= 2009)).astype(int)
     # df['nowadays'] = ((2010 <= df['Appyear'])).astype(int)
-    df['before'] = (df['ApprovalFY']<2007).astype(int) 
+    #df['before'] = (df['ApprovalFY']<2007).astype(int)
     df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
     df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
 
