@@ -113,7 +113,7 @@ def timer(start_time=None):
 xgbparams = {
     'n_estimators': [700,1000,1500],
     'colsample_bytree': [0.6,0.7,0.8,0.9,1],
-    'max_depth': [5,10,15,30,50],
+    'max_depth': [5,7,10,12,15,30,50],
     'subsample': [0.7, 0.8, 0.9,1],
     "min_child_weight" : [1,2,3,6],
     #"learning_rate": [0.03, 0.05, 0.1,0.16]
@@ -124,20 +124,20 @@ xgbparams = {
 
 
 lgbparam_grid = {
-    'n_estimators': [700,1000,1500],
+    'n_estimators': [700,800,1000,1500],
     'colsample_bytree': [0.7, 0.8,0.9],
-    'max_depth': [15,20,25,50,75],
+    'max_depth': [15,20,25,50,75,80,90],
     #"num_leaves": [40,50,100,200],
-    "num_leaves": [50,100,200,300,900,1200],
+    "num_leaves": [50,70,100,120,200,300,900,1200],
     "learning_rate" : [0.01,0.05,0.1],
     'min_split_gain': [0.2,0.3, 0.4,0.5],
-    'subsample': [0.7, 0.8, 0.9],
+    'subsample': [0.7, 0.8, 0.9,1],
 }
 #lgbm=pipeline(model,lgbparam_grid)
 
 
-cbparams = {'depth': [4,6, 7, 8,10],'learning_rate' : [0.03,0.1, 0.15,0.2,0.3],
-         'l2_leaf_reg': [1,4,6,9,11,13],'iterations': [500,700,900,1100]}
+cbparams = {'depth': [4,6, 7, 8,9,10],'learning_rate' : [0.03,0.05,0.1, 0.15,0.2,0.3],
+         'l2_leaf_reg': [1,4,6,9,11,12,13,14],'iterations': [500,700,900,1100]}
 
 
 models = [
@@ -147,6 +147,9 @@ models = [
     XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0),
     cb.CatBoostClassifier(random_seed=1, silent=True,thread_count=2),
     lgb.LGBMClassifier(random_state=1, silent=True,n_jobs=2),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=2, verbosity=0),
+    cb.CatBoostClassifier(random_seed=2, silent=True,thread_count=2),
+    lgb.LGBMClassifier(random_state=2, silent=True,n_jobs=2),
 ]
 params = [
     xgbparams,
@@ -155,10 +158,13 @@ params = [
     xgbparams,
     cbparams,
     lgbparam_grid,
+    xgbparams,
+    cbparams,
+    lgbparam_grid,
 ]
 # seeds=[0,1,0,1,0,1]
-seeds = [0, 0, 0,1,1,1]
-param_combo=[40,200,200,40,200,200]
+seeds = [0, 0, 0,1,1,1,1,1,1]
+param_combo=[40,200,200,40,200,200,40,200,200]
 trainedModels = []
 
 

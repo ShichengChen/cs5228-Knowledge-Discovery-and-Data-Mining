@@ -41,7 +41,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
-
+from dateutil.parser import parse
 # In[3]:
 from uszipcode import SearchEngine
 
@@ -62,35 +62,57 @@ def fe(df):
 
 
     df["DisbursementDate"][df["DisbursementDate"].isna()] = '19-Oct-20'
-
-    # In[11]:
-
-
     df['DisbursementDate'] = df["DisbursementDate"].apply(str)
     df['DisbursementDate'] = (df['DisbursementDate'].str.split("-").str[-1])
     assert(np.sum(df["DisbursementDate"].isna())==0)
     df['DisbursementDate'] = df['DisbursementDate'].astype(float)
     df['DisbursementDate'] = df['DisbursementDate'].astype(int)
-
-    # In[13]:
-
-
     df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: x + 2000 if x < 25 else x + 1900)
-
-    # In[14]:
-
-
     if showimage:
         sb.countplot(x='DisbursementDate', data=df)
         plt.show()
 
-    # In[15]:
-
-
+    df["ApprovalFY"] = df["ApprovalFY"].apply(str)
+    print(df['ApprovalFY'][~df["ApprovalFY"].str.isnumeric()])
     df['ApprovalFY'] = df['ApprovalFY'].str.replace(r'\D', '')
-    df["ApprovalFY"][df["ApprovalFY"].isna()] = df["ApprovalFY"][df["ApprovalFY"].notna()].median()
+    df['ApprovalFY']=df['ApprovalFY'].astype(int)
+    print('np.sum(df[appfy].isna())',np.sum(df['ApprovalFY'].isna()))
 
-    df['ApprovalFY'] = df['ApprovalFY'].astype(int)
+    # print(np.sum(df["DisbursementDate"].isna()), np.sum(df["ApprovalDate"].isna()), )
+    # import datetime
+    # def parsedate(x):
+    #     dt = parse(x)
+    #     d = (dt - parse('19-Oct-20')).days
+    #     if (d >= 0):
+    #         dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
+    #     return dt
+
+    # DisbursementDate = \
+    #     df['DisbursementDate'][df["DisbursementDate"].notna()]. \
+    #         apply(lambda x: parsedate(x))
+    #
+    # ApprovalDate = \
+    #     df['ApprovalDate'][df["DisbursementDate"].notna()]. \
+    #         apply(lambda x: parsedate(x))
+    # difdays = (DisbursementDate - ApprovalDate).apply(lambda x: x.days)
+    # mdifdays = difdays.median()
+    # print('mdifdays', mdifdays)
+    #
+    # disDatenan = \
+    #     df['ApprovalDate'][df["DisbursementDate"].isna()]. \
+    #         apply(lambda x: parse(x) + datetime.timedelta(days=mdifdays))
+    # df['DisDate'] = parse('19-Oct-21')
+    # df['DisDate'][df["DisbursementDate"].isna()] = disDatenan
+    # df['DisDate'][df["DisbursementDate"].notna()] = DisbursementDate
+    # assert np.sum((df['DisDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
+    # df['ApprovalDate'] = df['ApprovalDate'].apply(lambda x: parsedate(x))
+    # #basedate = parse("20-Sep-1968")
+    # # df['Appday'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
+    # # df['Disday'] = (df['DisDate'] - basedate).apply(lambda x: x.days)
+    # #df['difday'] = df['Disday'] - df['Appday']
+    # df['Appyear'] = df['ApprovalDate'].apply(lambda x: x.year)
+    # df['Disyear'] = df['DisDate'].apply(lambda x: x.year)
+    # df.drop(['DisbursementDate', 'DisDate', 'ApprovalFY'], axis=1, inplace=True)
 
     # In[16]:
 
@@ -195,6 +217,8 @@ def fe(df):
     df['SequBS'] = (df['State'] == df['BankState']).astype(int)
     df['portion'] = df['SBA_Appv'] / df['GrAppv']
     df['realstate'] = (df['Term'] > 240).astype(int)
+    # df['recession'] = ((2007 <= df['Appyear']) & (df['Appyear'] <= 2009)).astype(int)
+    # df['nowadays'] = ((2010 <= df['Appyear'])).astype(int) 
     df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
     df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
 
@@ -240,6 +264,8 @@ def fe(df):
     df = pd.get_dummies(df)
 
     print(df.info())
+    print(df.columns)
+    print("use before best features")
 
     return df
 
@@ -293,11 +319,29 @@ if __name__ == '__main__':
                      **{'learning_rate': 0.2, 'l2_leaf_reg': 11, 'iterations': 700, 'depth': 7})),
         ('6', lgb.LGBMClassifier(random_state=1, silent=True,
                      **{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.2, 'max_depth': 75, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('7', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
+                            **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.6})),
+        ('8', cb.CatBoostClassifier(random_seed=0, silent=True,
+                                    **{'learning_rate': 0.1, 'l2_leaf_reg': 13, 'iterations': 1100, 'depth': 8})),
+        ('9', lgb.LGBMClassifier(random_state=0, silent=True,
+                                 **{'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 1000, 'min_split_gain': 0.4, 'max_depth': 15, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('10', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
+                            **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.8})),
+        ('11', cb.CatBoostClassifier(random_seed=1, silent=True,
+                                    **{'learning_rate': 0.15, 'l2_leaf_reg': 13, 'iterations': 1100, 'depth': 7})),
+        ('12', lgb.LGBMClassifier(random_state=1, silent=True,
+                                 **{'subsample': 0.8, 'num_leaves': 120, 'n_estimators': 1500, 'min_split_gain': 0.2, 'max_depth': 80, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+        ('13', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
+                            **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+        ('14', cb.CatBoostClassifier(random_seed=1, silent=True,
+                                    **{'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 1100, 'depth': 7})),
+        ('15', lgb.LGBMClassifier(random_state=1, silent=True,
+                                 **{'subsample': 0.8, 'num_leaves': 120, 'n_estimators': 1000, 'min_split_gain': 0.5, 'max_depth': 15, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
     ]
 
     # In[ ]:
 
-
+ 
     votingC = VotingClassifier(estimators=estimators, voting='soft', n_jobs=6)
     # votingC = votingC.fit(x_train, y_train)
     # y_pred = votingC.predict(x_test)
