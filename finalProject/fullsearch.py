@@ -150,6 +150,12 @@ models = [
     XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=2, verbosity=0),
     cb.CatBoostClassifier(random_seed=2, silent=True,thread_count=2),
     lgb.LGBMClassifier(random_state=2, silent=True,n_jobs=2),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=3, verbosity=0),
+    cb.CatBoostClassifier(random_seed=3, silent=True,thread_count=2),
+    lgb.LGBMClassifier(random_state=3, silent=True,n_jobs=2),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=4, verbosity=0),
+    cb.CatBoostClassifier(random_seed=4, silent=True,thread_count=2),
+    lgb.LGBMClassifier(random_state=4, silent=True,n_jobs=2), 
 ]
 params = [
     xgbparams,
@@ -161,10 +167,16 @@ params = [
     xgbparams,
     cbparams,
     lgbparam_grid,
+    xgbparams,
+    cbparams,
+    lgbparam_grid,
+    xgbparams,
+    cbparams,
+    lgbparam_grid,
 ]
 # seeds=[0,1,0,1,0,1]
-seeds = [0, 0, 0,1,1,1,2,2,2]
-param_combo=[40,200,200,40,200,200,40,200,200]
+seeds = [0, 0, 0,1,1,1,2,2,2,3,3,3,4,4,4]
+param_combo=[40,200,400,40,200,400,40,200,400,40,200,400,40,200,400]
 trainedModels = []
 
 

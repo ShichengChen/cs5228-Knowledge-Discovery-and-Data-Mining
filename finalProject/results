@@ -328,7 +328,8 @@ best feature before
 ## df["ApprovalFY"][df["ApprovalFY"].isna()] = df["ApprovalFY"][df["ApprovalFY"].notna()].median()
 # df['ApprovalFY'] = df['ApprovalFY'].astype(int) use this strange feature
 # for above 15 models and bestfeature before leadboard:  0.93630
-
+# chang strange feature leadboard score 0.93677
+# change second strange feature disbursementdata leadboard score 0.93670
 
 
 
@@ -357,3 +358,66 @@ best feature before
 0.93378
 
 #leadborad 0.93587
+
+
+
+{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.6}
+0.93476
+
+ Time taken: 0 hours 50 minutes and 19.58 seconds.
+{'learning_rate': 0.15, 'l2_leaf_reg': 4, 'iterations': 900, 'depth': 7}
+0.9347999999999999
+
+ Time taken: 0 hours 14 minutes and 1.99 seconds.
+{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.4, 'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+0.9330999999999999
+
+ Time taken: 1 hours 43 minutes and 55.67 seconds.
+{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12, 'learning_rate': 0.03, 'colsample_bytree': 0.7}
+0.93456
+
+ Time taken: 0 hours 49 minutes and 29.46 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 1100, 'depth': 7}
+0.9354199999999999
+
+ Time taken: 0 hours 12 minutes and 42.19 seconds.
+{'subsample': 1, 'num_leaves': 200, 'n_estimators': 1500, 'min_split_gain': 0.3, 'max_depth': 15, 'learning_rate': 0.01, 'colsample_bytree': 0.7}
+0.93442
+
+ Time taken: 1 hours 44 minutes and 14.58 seconds.
+{'subsample': 0.9, 'n_estimators': 1000, 'min_child_weight': 6, 'max_depth': 7, 'learning_rate': 0.03, 'colsample_bytree': 0.8}
+0.9337799999999999
+
+ Time taken: 0 hours 48 minutes and 3.12 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 4, 'iterations': 1100, 'depth': 7}
+0.9354000000000001
+
+ Time taken: 0 hours 13 minutes and 27.45 seconds.
+{'subsample': 0.9, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.3, 'max_depth': 80, 'learning_rate': 0.01, 'colsample_bytree': 0.7}
+0.93326
+
+ Time taken: 1 hours 42 minutes and 9.8 seconds.
+{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7}
+0.93444
+
+ Time taken: 0 hours 48 minutes and 14.33 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 1100, 'depth': 6}
+0.9344199999999999
+
+ Time taken: 0 hours 12 minutes and 29.56 seconds.
+{'subsample': 1, 'num_leaves': 120, 'n_estimators': 1500, 'min_split_gain': 0.5, 'max_depth': 75, 'learning_rate': 0.1, 'colsample_bytree': 0.7}
+0.93308
+
+ Time taken: 1 hours 36 minutes and 30.95 seconds.
+{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 2, 'max_depth': 7, 'learning_rate': 0.03, 'colsample_bytree': 0.7}
+0.9339600000000001
+
+ Time taken: 0 hours 48 minutes and 57.77 seconds.
+{'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 1100, 'depth': 8}
+0.93506
+
+ Time taken: 0 hours 11 minutes and 59.91 seconds.
+{'subsample': 1, 'num_leaves': 100, 'n_estimators': 1000, 'min_split_gain': 0.4, 'max_depth': 75, 'learning_rate': 0.1, 'colsample_bytree': 0.7}
+0.93346
+
+# new feature "before is not usefull, degrate the perfermance" leadboard is 0.93662
