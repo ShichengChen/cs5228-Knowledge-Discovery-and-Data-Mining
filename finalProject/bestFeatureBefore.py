@@ -50,6 +50,12 @@ showimage = False
 
 
 def fe(df):
+    # tostr = ['Name', 'City', 'State', 'Bank', 'BankState', 'ApprovalDate', 'ApprovalFY', 'RevLineCr',
+    #          'LowDoc', 'DisbursementDate', 'DisbursementGross', 'BalanceGross', 'GrAppv', 'SBA_Appv']
+    # for i in tostr:
+    #     df[i] = df[i].apply(str)
+
+
     search = SearchEngine(simple_zipcode=True)
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
     print(state)
@@ -64,6 +70,23 @@ def fe(df):
     #df["DisbursementDate"][df["DisbursementDate"].isna()] = '19-Oct-20']
     disnan=df["DisbursementDate"].isna()
     df["DisbursementDate"][disnan] = df['ApprovalDate'][disnan].copy()
+
+    import datetime
+    def parsedate(x):
+        dt = parse(str(x))
+        d = (dt - parse('19-Oct-20')).days
+        if (d >= 0):
+            dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
+        return dt
+    DisbursementDate = \
+        df['DisbursementDate'][df["DisbursementDate"].notna()]. \
+            apply(lambda x: parsedate(x))
+    ApprovalDate = \
+        df['ApprovalDate'][df["DisbursementDate"].notna()]. \
+            apply(lambda x: parsedate(x))
+    df['difdays'] = (DisbursementDate - ApprovalDate).apply(lambda x: x.days).copy()
+
+
     df['DisbursementDate'] = df["DisbursementDate"].apply(str)
     df['DisbursementDate'] = (df['DisbursementDate'].str.split("-").str[-1]).copy()
     assert(np.sum(df["DisbursementDate"].isna())==0)
@@ -297,7 +320,8 @@ if __name__ == '__main__':
 
 
     # In[52]:
-
+    scores=[]
+    times=[]
 
     def timer(start_time=None):
         if not start_time:
@@ -306,7 +330,8 @@ if __name__ == '__main__':
         elif start_time:
             thour, temp_sec = divmod((datetime.now() - start_time).total_seconds(), 3600)
             tmin, tsec = divmod(temp_sec, 60)
-            print('\n Time taken: %i hours %i minutes and %s seconds.' % (thour, tmin, round(tsec, 2)))
+            #print()
+            times.append('\n Time taken: %i hours %i minutes and %s seconds.' % (thour, tmin, round(tsec, 2)))
 
 
     estimators = [

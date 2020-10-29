@@ -97,6 +97,10 @@ import catboost as cb
 # In[52]:
 
 
+scores = []
+times = []
+
+
 def timer(start_time=None):
     if not start_time:
         start_time = datetime.now()
@@ -105,7 +109,7 @@ def timer(start_time=None):
         thour, temp_sec = divmod((datetime.now() - start_time).total_seconds(), 3600)
         tmin, tsec = divmod(temp_sec, 60)
         print('\n Time taken: %i hours %i minutes and %s seconds.' % (thour, tmin, round(tsec, 2)))
-
+        times.append('\n Time taken: %i hours %i minutes and %s seconds.' % (thour, tmin, round(tsec, 2)))
 
 # In[53]:
 
@@ -200,7 +204,7 @@ def pipeline(model, params, random_state=0,param_comb=40):
 
 
 # In[ ]:
-
+searchedParams=[]
 
 for i in range(len(models)):
     #if(i==0 or i==3):continue
@@ -208,11 +212,15 @@ for i in range(len(models)):
     random_search=trainedModels[-1]
     print(random_search.best_params_)
     print(random_search.best_score_)
+    searchedParams.append(random_search.best_params_)
+    scores.append(random_search.best_score_)
     # y_pred=random_search.predict(x_test)
     # acc = round(accuracy_score(y_test, y_pred) * 100, 2)
     #print(acc)
 
-
+print(scores)
+print(times)
+print(searchedParams) 
 # estimators=[]
 # for i in range(len(trainedModels)):
 #     estimators.append((str(i),trainedModels[i].best_estimator_))
