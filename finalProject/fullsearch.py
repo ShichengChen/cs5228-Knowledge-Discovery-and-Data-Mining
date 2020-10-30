@@ -54,7 +54,8 @@ import seaborn as sb
 # In[3]:
 
 #from finalProject.featureEngineer import fe
-from finalProject.bestFeatureBefore import fe
+#from finalProject.bestFeatureBefore import fe
+from finalProject.bestFeatureBeforeCondensed import fe
 showimage = False
 
 # In[4]:
@@ -189,7 +190,6 @@ trainedModels = []
 
 def pipeline(model, params, random_state=0,param_comb=40):
     folds = 5
-
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
     random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
@@ -208,11 +208,24 @@ searchedParams=[]
 
 for i in range(len(models)):
     #if(i==0 or i==3):continue
+    if (i == 3): break
     trainedModels.append(pipeline(models[i],params[i],seeds[i],param_combo[i]))
+
     random_search=trainedModels[-1]
+    if(i%3==0):
+        out='(\''+str(i+1)+'\', XGBClassifier(objective=\'binary:logistic\', verbosity=0,silent=True, nthread=2, seed='+str(i//3)+', **'+str(random_search.best_params_)+')),'
+    elif(i%3==1):
+        out = '(\'' + str(
+            i + 1) + '\', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=' + str(
+            i // 3) + ',**' + str(random_search.best_params_) + ')),'
+    elif(i%3==2):
+        out = '(\'' + str(
+            i + 1) + '\', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=' + str(
+            i // 3) + ',**' + str(random_search.best_params_) + ')),'
     print(random_search.best_params_)
     print(random_search.best_score_)
-    searchedParams.append(random_search.best_params_)
+
+    searchedParams.append(out)
     scores.append(random_search.best_score_)
     # y_pred=random_search.predict(x_test)
     # acc = round(accuracy_score(y_test, y_pred) * 100, 2)
@@ -220,7 +233,15 @@ for i in range(len(models)):
 
 print(scores)
 print(times)
-print(searchedParams) 
+print(searchedParams)
+for i in searchedParams:
+    print(i)
+
+
+# a=[('1', XGBClassifier(objective='binary:logistic', verbosity=0,silent=True, nthread=2, seed=0, **{'subsample': 0.7, 'n_estimators': 1500, 'min_child_weight': 6, 'max_depth': 5, 'learning_rate': 0.03, 'colsample_bytree': 0.8})),
+# ('2', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=0,**{'learning_rate': 0.03, 'l2_leaf_reg': 6, 'iterations': 900, 'depth': 8})),
+# ('3', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=0,**{'subsample': 0.7, 'num_leaves': 120, 'n_estimators': 800, 'min_split_gain': 0.3, 'max_depth': 80, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+# ]
 # estimators=[]
 # for i in range(len(trainedModels)):
 #     estimators.append((str(i),trainedModels[i].best_estimator_))
