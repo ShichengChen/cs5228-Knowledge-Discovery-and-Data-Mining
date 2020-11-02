@@ -391,3 +391,25 @@ estimators=[
                                  **{'subsample': 1, 'num_leaves': 100, 'n_estimators': 1000, 'min_split_gain': 0.4, 'max_depth': 75, 'learning_rate': 0.1, 'colsample_bytree': 0.7})),
     ]
 # new feature "before is not usefull, degrate the perfermance" leadboard is 0.93662
+
+
+
+
+[{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.6},
+{'learning_rate': 0.15, 'l2_leaf_reg': 14, 'iterations': 900, 'depth': 6},
+{'subsample': 1, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.3, 'max_depth': 15, 'learning_rate': 0.05, 'colsample_bytree': 0.7},
+ {'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12, 'learning_rate': 0.03, 'colsample_bytree': 0.7},
+  {'learning_rate': 0.1, 'l2_leaf_reg': 1, 'iterations': 900, 'depth': 7},
+   {'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 700, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7},
+   {'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.6},
+    {'learning_rate': 0.1, 'l2_leaf_reg': 12, 'iterations': 1100, 'depth': 8},
+     {'subsample': 0.9, 'num_leaves': 70, 'n_estimators': 1500, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7},
+      {'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7},
+       {'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 7},
+       {'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.3, 'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7},
+        {'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 2, 'max_depth': 7, 'learning_rate': 0.03, 'colsample_bytree': 0.7},
+        {'learning_rate': 0.15, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 6},
+         {'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.5, 'max_depth': 20, 'learning_rate': 0.05, 'colsample_bytree': 0.7}]
+[0.9350799999999999, 0.9353, 0.93344, 0.93496, 0.9355800000000002, 0.93438, 0.93406, 0.93542, 0.9335000000000001, 0.93428,
+ 0.9347799999999999, 0.9337200000000001, 0.93428, 0.9352199999999999, 0.9338600000000001]
+

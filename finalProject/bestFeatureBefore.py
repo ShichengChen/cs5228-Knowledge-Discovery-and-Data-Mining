@@ -61,6 +61,7 @@ def fe(df):
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
     print(state)
     df["State"][(df["State"].isna())] = state
+    df["census"]=df["Zip"].apply(lambda x: search.by_zipcode(x).population).copy()
 
     df["LowDoc"][(df["LowDoc"].notna()) & (df["LowDoc"] != 'Y')] = 'N'
     df["LowDoc"][df["LowDoc"].isna()] = 'nan'
@@ -345,26 +346,21 @@ if __name__ == '__main__':
                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 1, 'iterations': 900, 'depth': 7})),
         ('6', lgb.LGBMClassifier(random_state=1, silent=True, n_jobs=2,
                                  **{'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 700, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
-        ('7', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
+        ('7', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=2, verbosity=0,
                             **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.6})),
-        ('8', cb.CatBoostClassifier(random_seed=0, silent=True, thread_count=2,
+        ('8', cb.CatBoostClassifier(random_seed=2, silent=True, thread_count=2,
                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 12, 'iterations': 1100, 'depth': 8})),
-        ('9', lgb.LGBMClassifier(random_state=0, silent=True, n_jobs=2,
+        ('9', lgb.LGBMClassifier(random_state=2, silent=True, n_jobs=2,
                                  **{'subsample': 0.9, 'num_leaves': 70, 'n_estimators': 1500, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
-        ('10', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
+        ('10', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=3, verbosity=0,
                              **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
-        ('11', cb.CatBoostClassifier(random_seed=1, silent=True, thread_count=2,
+        ('11', cb.CatBoostClassifier(random_seed=3, silent=True, thread_count=2,
                                      **{'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 7})),
-        ('12', lgb.LGBMClassifier(random_state=1, silent=True, n_jobs=2,
+        ('12', lgb.LGBMClassifier(random_state=3, silent=True, n_jobs=2,
                                   **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.3, 'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
-        # ('13', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
-        #                      **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12,
-        #                         'learning_rate': 0.03, 'colsample_bytree': 0.7})),
-        # ('14', cb.CatBoostClassifier(random_seed=1, silent=True, thread_count=2,
-        #                              **{'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 1100, 'depth': 7})),
-        # ('15', lgb.LGBMClassifier(random_state=1, silent=True, n_jobs=2,
-        #                           **{'subsample': 0.8, 'num_leaves': 120, 'n_estimators': 1000, 'min_split_gain': 0.5,
-        #                              'max_depth': 15, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+        # ('13', XGBClassifier(objective='binary:logistic', verbosity=0,silent=True, nthread=2, seed=4, **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 2, 'max_depth': 7, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+        # ('14', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=4,**{'learning_rate': 0.15, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 6})),
+        # ('15', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=4,**{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.5, 'max_depth': 20, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
     ]
 
     # In[ ]:
