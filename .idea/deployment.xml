@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="Always" serverName="media" autoUploadExternalChanges="true">
     <serverData>
+      <paths name="app">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/cs5228 Knowledge Discovery and Data Mining" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="media">
         <serverdata>
           <mappings>

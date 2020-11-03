@@ -61,7 +61,7 @@ def fe(df):
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
     print(state)
     df["State"][(df["State"].isna())] = state
-    df["census"]=df["Zip"].apply(lambda x: search.by_zipcode(x).population).copy()
+
 
     df["LowDoc"][(df["LowDoc"].notna()) & (df["LowDoc"] != 'Y')] = 'N'
     df["LowDoc"][df["LowDoc"].isna()] = 'nan'
@@ -178,10 +178,10 @@ def fe(df):
         sb.distplot(df["Term"])
         plt.show()
 
-    df["NoEmp"] = np.log(1 + df["NoEmp"])
-    if showimage:
-        sb.distplot(df["NoEmp"])
-        plt.show()
+    # df["NoEmp"] = np.log(1 + df["NoEmp"])
+    # if showimage:
+    #     sb.distplot(df["NoEmp"])
+    #     plt.show()
 
     df['NewExist'][df['NewExist'].isna()] = 0
 
@@ -195,16 +195,16 @@ def fe(df):
     # In[26]:
 
 
-    df["CreateJob"] = np.log(1 + df["CreateJob"])
-    if showimage:
-        sb.distplot(df["CreateJob"])
-        plt.show()
+    # df["CreateJob"] = np.log(1 + df["CreateJob"])
+    # if showimage:
+    #     sb.distplot(df["CreateJob"])
+    #     plt.show()
 
 
-    df["RetainedJob"] = np.log(1 + df["RetainedJob"])
-    if showimage:
-        sb.distplot(np.log(1 + df["RetainedJob"]))
-        plt.show()
+    # df["RetainedJob"] = np.log(1 + df["RetainedJob"])
+    # if showimage:
+    #     sb.distplot(np.log(1 + df["RetainedJob"]))
+    #     plt.show()
 
 
     #np.sum((df["UrbanRural"] == 0) | (df["UrbanRural"] == 1) | (df["UrbanRural"] == 2))
@@ -265,6 +265,11 @@ def fe(df):
     #
     # for i in df.columns:
     #     print(i, df[i].nunique())
+
+    var = ['CreateJob', 'RetainedJob', 'Term', 'GrAppv', 'SBA_Appv', 'NoEmp', 'DisbursementGross', 'portion']
+    for i in range(8):
+        df[var[i % 8]] = np.log(1 + df[var[i % 8]])
+
 
 
     df = df.drop(['Bank','Name','City','Zip','ApprovalDate','BalanceGross','Id'], 1)

@@ -181,7 +181,7 @@ params = [
 ]
 # seeds=[0,1,0,1,0,1]
 seeds = [0, 0, 0,1,1,1,2,2,2,3,3,3,4,4,4]
-param_combo=[40,200,400,40,200,400,40,200,400,40,200,400,40,200,400]
+param_combo=[40,300,500,40,300,500,40,300,500,40,300,500,40,300,500]
 trainedModels = []
 
 
@@ -193,7 +193,7 @@ def pipeline(model, params, random_state=0,param_comb=40):
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
     random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
-                                       scoring='accuracy', n_jobs=4, cv=skf.split(x_train, y_train),
+                                       scoring='accuracy', n_jobs=8, cv=skf.split(x_train, y_train),
                                        verbose=0, random_state=random_state)
 
     # Here we go
@@ -206,8 +206,8 @@ def pipeline(model, params, random_state=0,param_comb=40):
 # In[ ]:
 searchedParams=[]
 
-for i in range(min(len(models),12)):
-    #if(i==0 or i==3):continue
+for i in range(min(len(models),15)):
+    if(i<=2):continue
     trainedModels.append(pipeline(models[i],params[i],seeds[i],param_combo[i]))
 
     random_search=trainedModels[-1]
