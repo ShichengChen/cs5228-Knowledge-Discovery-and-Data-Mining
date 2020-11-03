@@ -270,12 +270,12 @@ def fe(df):
     var = ['CreateJob', 'RetainedJob', 'Term', 'GrAppv', 'SBA_Appv', 'NoEmp', 'DisbursementGross', 'portion']
     for i in range(8):
         df[var[i % 8]] = np.log(1 + df[var[i % 8]])
-        scaler = MinMaxScaler()
-        cur = df[var[i % 8]].values.reshape(-1, 1)
-        scaler.fit(cur)
-        df[var[i % 8]] = scaler.transform(cur).reshape(-1)
+        # scaler = MinMaxScaler()
+        # cur = df[var[i % 8]].values.reshape(-1, 1)
+        # scaler.fit(cur)
+        # df[var[i % 8]] = scaler.transform(cur).reshape(-1)
 
- 
+
     df = df.drop(['Bank','Name','City','Zip','ApprovalDate','BalanceGross','Id'], 1)
 
     # In[44]:

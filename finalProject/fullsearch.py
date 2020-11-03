@@ -55,7 +55,8 @@ import seaborn as sb
 
 #from finalProject.featureEngineer import fe
 #from finalProject.bestFeatureBefore import fe
-from finalProject.bestFeatureBeforeCondensed import fe
+#from finalProject.bestFeatureBeforeCondensed import fe
+from finalProject.slim import fe
 showimage = False
 
 # In[4]:
@@ -141,7 +142,7 @@ lgbparam_grid = {
 #lgbm=pipeline(model,lgbparam_grid)
 
 
-cbparams = {'depth': [4,6, 7, 8,9,10],'learning_rate' : [0.03,0.05,0.1, 0.15,0.2,0.3],
+cbparams = {'depth': [4,6, 7, 8,9,10,15,20],'learning_rate' : [0.03,0.05,0.1, 0.15,0.2,0.3],
          'l2_leaf_reg': [1,4,6,9,11,12,13,14],'iterations': [500,700,900,1100]}
 
 
