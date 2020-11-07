@@ -147,19 +147,19 @@ cbparams = {'depth': [4,6, 7, 8,9,10],'learning_rate' : [0.03,0.05,0.1, 0.15,0.2
 
 
 models = [
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=0, verbosity=0),
     cb.CatBoostClassifier(random_seed=0, silent=True,thread_count=2),
     lgb.LGBMClassifier(random_state=0, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=1, verbosity=0),
     cb.CatBoostClassifier(random_seed=1, silent=True,thread_count=2),
     lgb.LGBMClassifier(random_state=1, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=2, verbosity=0),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=2, verbosity=0),
     cb.CatBoostClassifier(random_seed=2, silent=True,thread_count=2),
     lgb.LGBMClassifier(random_state=2, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=3, verbosity=0),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=3, verbosity=0),
     cb.CatBoostClassifier(random_seed=3, silent=True,thread_count=2),
     lgb.LGBMClassifier(random_state=3, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=4, verbosity=0),
+    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=4, verbosity=0),
     cb.CatBoostClassifier(random_seed=4, silent=True,thread_count=2),
     lgb.LGBMClassifier(random_state=4, silent=True,n_jobs=2), 
 ]
@@ -214,7 +214,7 @@ for i in range(min(len(models),15)):
 
     random_search=trainedModels[-1]
     if(i%3==0):
-        out='(\''+str(i+1)+'\', XGBClassifier(objective=\'binary:logistic\', verbosity=0,silent=True, nthread=2, seed='+str(i//3)+', **'+str(random_search.best_params_)+')),'
+        out='(\''+str(i+1)+'\', XGBClassifier(objective=\'binary:logistic\', verbosity=0,silent=True, nthread=2, random_state='+str(i//3)+', **'+str(random_search.best_params_)+')),'
     elif(i%3==1):
         out = '(\'' + str(
             i + 1) + '\', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=' + str(

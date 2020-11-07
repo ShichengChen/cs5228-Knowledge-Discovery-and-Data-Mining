@@ -80,28 +80,11 @@ def fe(df,train=True):
     df["DisbursementDate"][disnan] = df['ApprovalDate'][disnan].copy()
     df['DisbursementDate'] = df["DisbursementDate"].apply(str)
 
-    # import datetime
-    # def parsedate(x):
-    #     dt = parse(str(x))
-    #     d = (dt - parse('19-Oct-20')).days
-    #     if (d >= 0):
-    #         dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
-    #     return dt
-    # DisbursementDate = df['DisbursementDate'].apply(lambda x: parsedate(x))
-    # ApprovalDate = df['ApprovalDate'].apply(lambda x: parsedate(x))
-    # df['difdays'] = (DisbursementDate - ApprovalDate).apply(lambda x: x.days).copy()
-
-
-
     df['DisbursementDate'] = (df['DisbursementDate'].str.split("-").str[-1]).copy()
     assert(np.sum(df["DisbursementDate"].isna())==0)
     #df['DisbursementDate'] = df['DisbursementDate'].astype(float)
     df['DisbursementDate'] = df['DisbursementDate'].astype(int)
     df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: x + 2000 if x < 25 else x + 1900)
-    if showimage:
-        sb.countplot(x='DisbursementDate', data=df)
-        plt.show()
-
 
     df["ApprovalFY"] = df["ApprovalFY"].apply(str)
     # print(df['ApprovalFY'][~df["ApprovalFY"].str.isnumeric()])

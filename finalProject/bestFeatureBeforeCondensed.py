@@ -59,6 +59,8 @@ def fe(df):
     # for i in tostr:
     #     df[i] = df[i].apply(str)
 
+
+
     print("best before remove nacis2 begin")
     search = SearchEngine(simple_zipcode=True)
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
@@ -73,48 +75,48 @@ def fe(df):
     df["RevLineCr"][~df['RevLineCr'].isin(['N', 'Y'])] = 'nan'
     assert (np.sum(df["RevLineCr"].isna()) == 0 and np.sum(~df['RevLineCr'].isin(['N', 'Y', 'nan'])) == 0)
 
+    df = df.drop(['Bank', 'Name', 'City', 'Zip', 'BalanceGross', 'Id'], 1)
 
     #df["DisbursementDate"][df["DisbursementDate"].isna()] = '19-Oct-20']
     disnan=df["DisbursementDate"].isna()
     df["DisbursementDate"][disnan] = df['ApprovalDate'][disnan].copy()
     df['DisbursementDate'] = df["DisbursementDate"].apply(str)
 
-    # import datetime
-    # def parsedate(x):
-    #     dt = parse(str(x))
-    #     d = (dt - parse('19-Oct-20')).days
-    #     if (d >= 0):
-    #         dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
-    #     return dt
-    # DisbursementDate = df['DisbursementDate'].apply(lambda x: parsedate(x))
-    # ApprovalDate = df['ApprovalDate'].apply(lambda x: parsedate(x))
-    # df['difdays'] = (DisbursementDate - ApprovalDate).apply(lambda x: x.days).copy()
+    showdate=True
+    if not showdate:
+        df['DisbursementDate'] = (df['DisbursementDate'].str.split("-").str[-1]).copy()
+        assert(np.sum(df["DisbursementDate"].isna())==0)
+        df['DisbursementDate'] = df['DisbursementDate'].astype(int)
+        df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: x + 2000 if x < 25 else x + 1900)
 
+        df["ApprovalFY"] = df["ApprovalFY"].apply(str)
+        #print(df['ApprovalFY'][~df["ApprovalFY"].str.isnumeric()])
+        df['ApprovalFY'] = df['ApprovalFY'].str.replace(r'\D', '')
+        df['ApprovalFY']=df['ApprovalFY'].astype(int)
+        assert (np.sum(df['ApprovalFY'].isna())==0)
+        df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
+        df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
+        df = df.drop(['ApprovalDate'], 1)
+    else:
 
+        import datetime
+        def parsedate(x):
+            dt = parse(x)
+            d = (dt - parse('19-Oct-20')).days
+            if (d >= 0):
+                dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
+            return dt
 
-    df['DisbursementDate'] = (df['DisbursementDate'].str.split("-").str[-1]).copy()
-    assert(np.sum(df["DisbursementDate"].isna())==0)
-    #df['DisbursementDate'] = df['DisbursementDate'].astype(float)
-    df['DisbursementDate'] = df['DisbursementDate'].astype(int)
-    df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: x + 2000 if x < 25 else x + 1900)
-    if showimage:
-        sb.countplot(x='DisbursementDate', data=df)
-        plt.show()
-
-    df["ApprovalFY"] = df["ApprovalFY"].apply(str)
-    #print(df['ApprovalFY'][~df["ApprovalFY"].str.isnumeric()])
-    df['ApprovalFY'] = df['ApprovalFY'].str.replace(r'\D', '')
-    df['ApprovalFY']=df['ApprovalFY'].astype(int)
-    assert (np.sum(df['ApprovalFY'].isna())==0)
-
-    # print(np.sum(df["DisbursementDate"].isna()), np.sum(df["ApprovalDate"].isna()), )
-    # import datetime
-    # def parsedate(x):
-    #     dt = parse(x)
-    #     d = (dt - parse('19-Oct-20')).days
-    #     if (d >= 0):
-    #         dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
-    #     return dt
+        df['ApprovalDate'] = df['ApprovalDate'].apply(lambda x: parsedate(x))
+        df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: parsedate(x))
+        assert np.sum((df['DisbursementDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
+        assert np.sum((df['ApprovalDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
+        df['recession'] = ((parse("01-Dec-2007") <= df['ApprovalDate']) & (df['ApprovalDate'] <= parse("30-Jun-2009"))).astype(int)
+        df['nowadays'] = ((parse("30-Jun-2009") <= df['ApprovalDate'])).astype(int)
+        basedate = parse("20-Sep-1968")
+        df['ApprovalDate'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
+        df['DisbursementDate'] = (df['DisbursementDate'] - basedate).apply(lambda x: x.days)
+        df = df.drop(['ApprovalFY'], 1)
 
     # DisbursementDate = \
     #     df['DisbursementDate'][df["DisbursementDate"].notna()]. \
@@ -134,7 +136,6 @@ def fe(df):
     # df['DisDate'][df["DisbursementDate"].isna()] = disDatenan
     # df['DisDate'][df["DisbursementDate"].notna()] = DisbursementDate
     # assert np.sum((df['DisDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
-    # df['ApprovalDate'] = df['ApprovalDate'].apply(lambda x: parsedate(x))
     # #basedate = parse("20-Sep-1968")
     # # df['Appday'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
     # # df['Disday'] = (df['DisDate'] - basedate).apply(lambda x: x.days)
@@ -172,8 +173,7 @@ def fe(df):
     # df['recession'] = ((2007 <= df['Appyear']) & (df['Appyear'] <= 2009)).astype(int)
     # df['nowadays'] = ((2010 <= df['Appyear'])).astype(int)
     #df['before'] = (df['ApprovalFY']<2007).astype(int)
-    df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
-    df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
+
 
     # df['fast'] = (df['Term'] == 0).astype(int)
     # df['Tyear'] = (df['Term'] // 12).astype(int)
@@ -210,7 +210,7 @@ def fe(df):
     #     print(i, df[i].nunique())
 
 
-    df = df.drop(['Bank','Name','City','Zip','ApprovalDate','BalanceGross','Id'], 1)
+
 
     # In[44]:
 
@@ -276,7 +276,7 @@ if __name__ == '__main__':
 
 
     estimators = [
-        ('1', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=0,
+        ('1', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=0,
                             **{'subsample': 0.8, 'n_estimators': 1500, 'min_child_weight': 1, 'max_depth': 7,
                                'learning_rate': 0.03, 'colsample_bytree': 0.8})),
         ('2', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=0,
@@ -284,7 +284,7 @@ if __name__ == '__main__':
         ('3', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=0,
                                  **{'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 1500, 'min_split_gain': 0.4,
                                     'max_depth': 75, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
-        ('4', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=1,
+        ('4', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=1,
                             **{'subsample': 0.7, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 12,
                                'learning_rate': 0.03, 'colsample_bytree': 0.6})),
         ('5', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=1,
@@ -292,7 +292,7 @@ if __name__ == '__main__':
         ('6', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=1,
                                  **{'subsample': 1, 'num_leaves': 120, 'n_estimators': 1500, 'min_split_gain': 0.2,
                                     'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
-        ('7', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=2,
+        ('7', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=2,
                             **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
                                'learning_rate': 0.05, 'colsample_bytree': 0.6})),
         ('8', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=2,
@@ -300,7 +300,7 @@ if __name__ == '__main__':
         ('9', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=2,
                                  **{'subsample': 0.9, 'num_leaves': 70, 'n_estimators': 1500, 'min_split_gain': 0.2,
                                     'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
-        ('10', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=3,
+        ('10', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=3,
                              **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10,
                                 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
         ('11', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=3,
