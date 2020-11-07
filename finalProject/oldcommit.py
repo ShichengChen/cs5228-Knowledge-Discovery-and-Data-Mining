@@ -62,6 +62,7 @@ def fe(df):
     print(state)
     df["State"][(df["State"].isna())] = state
     #df["census"]=df["Zip"].apply(lambda x: search.by_zipcode(x).population).copy()
+    #df["census"]=df["Zip"].apply(lambda x: search.by_zipcode(x).population_density).copy()
 
     df["LowDoc"][(df["LowDoc"].notna()) & (df["LowDoc"] != 'Y')] = 'N'
     df["LowDoc"][df["LowDoc"].isna()] = 'nan'

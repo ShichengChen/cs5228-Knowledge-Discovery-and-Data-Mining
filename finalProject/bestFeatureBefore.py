@@ -63,14 +63,16 @@ def fe(df,train=True):
     print("best before begin")
     search = SearchEngine(simple_zipcode=True)
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
-    print(state)
+    #print(state)
     df["State"][(df["State"].isna())] = state
     #df["census"] = df["Zip"].apply(lambda x: search.by_zipcode(x).population_density).copy()
 
-    df["LowDoc"][(df["LowDoc"].notna()) & (df["LowDoc"] != 'Y')] = 'N'
-    df["LowDoc"][df["LowDoc"].isna()] = 'nan'
-    df["RevLineCr"][(df["RevLineCr"].notna()) & (df["RevLineCr"] != 'Y')] = 'N'
-    df["RevLineCr"][df["RevLineCr"].isna()] = 'nan'
+    print('wrong data lowDoc',np.sum(~df['LowDoc'].isin(['N', 'Y'])))
+    df["LowDoc"][~df['LowDoc'].isin(['N', 'Y'])] = 'nan'
+    assert (np.sum(df["LowDoc"].isna()) == 0 and np.sum(~df['LowDoc'].isin(['N', 'Y', 'nan'])) == 0)
+    print('wrong data RevLineCr',np.sum(~df['RevLineCr'].isin(['N', 'Y'])))
+    df["RevLineCr"][~df['RevLineCr'].isin(['N', 'Y'])] = 'nan'
+    assert (np.sum(df["RevLineCr"].isna()) == 0 and np.sum(~df['RevLineCr'].isin(['N', 'Y', 'nan'])) == 0)
 
 
     #df["DisbursementDate"][df["DisbursementDate"].isna()] = '19-Oct-20']
@@ -100,11 +102,12 @@ def fe(df,train=True):
         sb.countplot(x='DisbursementDate', data=df)
         plt.show()
 
+
     df["ApprovalFY"] = df["ApprovalFY"].apply(str)
-    print(df['ApprovalFY'][~df["ApprovalFY"].str.isnumeric()])
+    # print(df['ApprovalFY'][~df["ApprovalFY"].str.isnumeric()])
     df['ApprovalFY'] = df['ApprovalFY'].str.replace(r'\D', '')
-    df['ApprovalFY']=df['ApprovalFY'].astype(int)
-    print('np.sum(df[appfy].isna())',np.sum(df['ApprovalFY'].isna()))
+    df['ApprovalFY'] = df['ApprovalFY'].astype(int)
+    assert (np.sum(df['ApprovalFY'].isna()) == 0)
 
     # print(np.sum(df["DisbursementDate"].isna()), np.sum(df["ApprovalDate"].isna()), )
     # import datetime
@@ -312,7 +315,7 @@ def fe(df,train=True):
     df = pd.get_dummies(df)
 
     print(df.info())
-    print(df.columns)
+    print(df.columns.values)
     print("use before best features")
 
     return df

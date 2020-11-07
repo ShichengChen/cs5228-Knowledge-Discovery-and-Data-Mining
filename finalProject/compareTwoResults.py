@@ -1,14 +1,14 @@
 import pandas as pd
 import numpy as np
 
-df1=pd.read_csv("ans.csv")
-df2=pd.read_csv("0.93727.csv")
+# df1=pd.read_csv("ans.csv")
+# df2=pd.read_csv("0.93727.csv")
 
 df3=pd.read_csv("ans2.csv")
-df4=pd.read_csv("0.93697.csv")
+df4=pd.read_csv("0.93752.csv")
 
-print(np.sum(df1.ChargeOff!=df2.ChargeOff))
-print(np.sum(df1.ChargeOff==df2.ChargeOff))
+# print(np.sum(df1.ChargeOff!=df2.ChargeOff))
+# print(np.sum(df1.ChargeOff==df2.ChargeOff))
 
 print(np.sum(df3.ChargeOff!=df4.ChargeOff))
 print(np.sum(df3.ChargeOff==df4.ChargeOff))
@@ -35,4 +35,4 @@ print(np.sum(df3.ChargeOff==df4.ChargeOff))
 
 
 #19
-#99981 best feature before condensed
+#99981 best feature before condensed in laptop
