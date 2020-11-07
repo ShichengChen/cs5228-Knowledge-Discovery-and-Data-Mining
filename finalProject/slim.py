@@ -57,7 +57,7 @@ def fe(df):
     # for i in tostr:
     #     df[i] = df[i].apply(str)
 
-    print("best before begin")
+    print("slim begin") 
     search = SearchEngine(simple_zipcode=True)
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
     print(state)
@@ -299,7 +299,7 @@ def fe(df):
 
     print(df.info())
     print(df.columns)
-    print("use before best features")
+    print("slim")
 
     return df
 

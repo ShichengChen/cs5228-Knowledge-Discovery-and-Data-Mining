@@ -180,10 +180,10 @@ def fe(df):
         #     pt.fit(cur)
         #     df[var[i%8]]=pt.transform(cur).reshape(-1)
         df[var[i % 8]] = np.log(1 + df[var[i % 8]])
-        scaler = MinMaxScaler()
-        cur = df[var[i % 8]].values.reshape(-1, 1)
-        scaler.fit(cur)
-        df[var[i % 8]] = scaler.transform(cur).reshape(-1)
+        # scaler = MinMaxScaler()
+        # cur = df[var[i % 8]].values.reshape(-1, 1)
+        # scaler.fit(cur)
+        # df[var[i % 8]] = scaler.transform(cur).reshape(-1)
     # nai = {11: 'Agriculture', 21: 'Mining', 22: 'Utilities', 23: 'Construction', 31: 'Manufacturing',
     #        32: 'Manufacturing',
     #        33: 'Manufacturing', 42: 'Wholesale', 44: 'Retail', 45: 'Retail', 48: 'Transportation',
@@ -326,4 +326,4 @@ if __name__ == '__main__':
     id=np.arange(y_pred.shape[0]).tolist()
     y_pred=y_pred.tolist()
     ans=pd.DataFrame(list(zip(id, y_pred)), columns=['Id', 'ChargeOff'])
-    ans.to_csv("ans.csv",index=False)
+    ans.to_csv("ans2.csv",index=False)

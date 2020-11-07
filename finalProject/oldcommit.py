@@ -42,19 +42,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
 from dateutil.parser import parse
-from sklearn.preprocessing import MinMaxScaler
-from scipy.stats import rankdata
 # In[3]:
 from uszipcode import SearchEngine
 warnings.filterwarnings('ignore')
 
 
 showimage = False
-scalerlist=[]
 
-def fe(df,train=True):
-    if(train):print("training set")
-    else:print("testing set")
+
+def fe(df):
     # tostr = ['Name', 'City', 'State', 'Bank', 'BankState', 'ApprovalDate', 'ApprovalFY', 'RevLineCr',
     #          'LowDoc', 'DisbursementDate', 'DisbursementGross', 'BalanceGross', 'GrAppv', 'SBA_Appv']
     # for i in tostr:
@@ -65,7 +61,7 @@ def fe(df,train=True):
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
     print(state)
     df["State"][(df["State"].isna())] = state
-    #df["census"] = df["Zip"].apply(lambda x: search.by_zipcode(x).population_density).copy()
+    #df["census"]=df["Zip"].apply(lambda x: search.by_zipcode(x).population).copy()
 
     df["LowDoc"][(df["LowDoc"].notna()) & (df["LowDoc"] != 'Y')] = 'N'
     df["LowDoc"][df["LowDoc"].isna()] = 'nan'
@@ -182,10 +178,10 @@ def fe(df,train=True):
         sb.distplot(df["Term"])
         plt.show()
 
-    # df["NoEmp"] = np.log(1 + df["NoEmp"])
-    # if showimage:
-    #     sb.distplot(df["NoEmp"])
-    #     plt.show()
+    #df["NoEmp"] = np.log(1 + df["NoEmp"])
+    if showimage:
+        sb.distplot(df["NoEmp"])
+        plt.show()
 
     df['NewExist'][df['NewExist'].isna()] = 0
 
@@ -199,16 +195,16 @@ def fe(df,train=True):
     # In[26]:
 
 
-    # df["CreateJob"] = np.log(1 + df["CreateJob"])
-    # if showimage:
-    #     sb.distplot(df["CreateJob"])
-    #     plt.show()
+    #df["CreateJob"] = np.log(1 + df["CreateJob"])
+    if showimage:
+        sb.distplot(df["CreateJob"])
+        plt.show()
 
 
-    # df["RetainedJob"] = np.log(1 + df["RetainedJob"])
-    # if showimage:
-    #     sb.distplot(np.log(1 + df["RetainedJob"]))
-    #     plt.show()
+    #df["RetainedJob"] = np.log(1 + df["RetainedJob"])
+    if showimage:
+        sb.distplot(np.log(1 + df["RetainedJob"]))
+        plt.show()
 
 
     #np.sum((df["UrbanRural"] == 0) | (df["UrbanRural"] == 1) | (df["UrbanRural"] == 2))
@@ -270,25 +266,6 @@ def fe(df,train=True):
     # for i in df.columns:
     #     print(i, df[i].nunique())
 
-    var = ['CreateJob', 'RetainedJob', 'Term', 'GrAppv', 'SBA_Appv', 'NoEmp', 'DisbursementGross', 'portion']
-    #df['term2'] = rankdata(df['Term']) / len(df) * 100
-    for i in range(8):
-        #df[var[i]] = np.log(1 + df[var[i]])
-        df[var[i % 8]] = np.log(1 + df[var[i % 8]])
-        #df[var[i % 8]]=rankdata(df[var[i % 8]])/len(df)*100
-        # if(train):
-        #     print("training fit")
-        #     scalerlist.append(MinMaxScaler())
-        #     assert(len(scalerlist)==i+1)
-        #     cur = df[var[i % 8]].values.reshape(-1, 1)
-        #     scalerlist[i].fit(cur)
-        #     df[var[i % 8]] = scalerlist[i].transform(cur).reshape(-1)
-        # else:
-        #     print("test estimate")
-        #     cur = df[var[i % 8]].values.reshape(-1, 1)
-        #     df[var[i % 8]] = scalerlist[i].transform(cur).reshape(-1)
-
-
 
     df = df.drop(['Bank','Name','City','Zip','ApprovalDate','BalanceGross','Id'], 1)
 
@@ -306,8 +283,10 @@ def fe(df,train=True):
     for i in tostr:
         df[i] = df[i].astype(str)
 
-    #df = df.drop(['GrAppv'], 1)
-    #print("remove GrAppv")
+    var = ['CreateJob', 'RetainedJob', 'Term', 'GrAppv', 'SBA_Appv', 'NoEmp', 'DisbursementGross', 'portion']
+    for i in range(8):
+        df[var[i % 8]] = np.log(1 + df[var[i % 8]])
+
 
     df = pd.get_dummies(df)
 
@@ -325,14 +304,16 @@ if __name__ == '__main__':
     dfx = pd.read_csv("Xtrain.csv")
     df = pd.concat([dfx, dfy], axis=1)
 
-    df=fe(df,train=True)
+    df=fe(df)
 
     dftest = pd.read_csv("Xtest.csv")
-    dftest=fe(dftest,train=False)
+    dftest=fe(dftest)
     X = df.loc[:, df.columns != 'Y'].values
     Y = df['Y'].values
     Xftest=dftest.values
     print('Xftest.shape',Xftest.shape)
+    x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state=0)
+
     df = pd.read_csv("Ytrain.csv")
 
 
@@ -343,54 +324,54 @@ if __name__ == '__main__':
     scores=[]
     times=[]
 
-
+    def timer(start_time=None):
+        if not start_time:
+            start_time = datetime.now()
+            return start_time
+        elif start_time:
+            thour, temp_sec = divmod((datetime.now() - start_time).total_seconds(), 3600)
+            tmin, tsec = divmod(temp_sec, 60)
+            #print()
+            times.append('\n Time taken: %i hours %i minutes and %s seconds.' % (thour, tmin, round(tsec, 2)))
 
 
     estimators = [
         ('1', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
-                            **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
-                               'learning_rate': 0.03, 'colsample_bytree': 0.6})),
+                            **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.6})),
         ('2', cb.CatBoostClassifier(random_seed=0, silent=True, thread_count=2,
                                     **{'learning_rate': 0.15, 'l2_leaf_reg': 14, 'iterations': 900, 'depth': 6})),
         ('3', lgb.LGBMClassifier(random_state=0, silent=True, n_jobs=2,
-                                 **{'subsample': 1, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.3,
-                                    'max_depth': 15, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+                                 **{'subsample': 1, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.3, 'max_depth': 15, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
         ('4', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
-                            **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12,
-                               'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+                            **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
         ('5', cb.CatBoostClassifier(random_seed=1, silent=True, thread_count=2,
                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 1, 'iterations': 900, 'depth': 7})),
         ('6', lgb.LGBMClassifier(random_state=1, silent=True, n_jobs=2,
-                                 **{'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 700, 'min_split_gain': 0.2,
-                                    'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+                                 **{'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 700, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
         ('7', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=2, verbosity=0,
-                            **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
-                               'learning_rate': 0.05, 'colsample_bytree': 0.6})),
+                            **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.05, 'colsample_bytree': 0.6})),
         ('8', cb.CatBoostClassifier(random_seed=2, silent=True, thread_count=2,
                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 12, 'iterations': 1100, 'depth': 8})),
         ('9', lgb.LGBMClassifier(random_state=2, silent=True, n_jobs=2,
-                                 **{'subsample': 0.9, 'num_leaves': 70, 'n_estimators': 1500, 'min_split_gain': 0.2,
-                                    'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+                                 **{'subsample': 0.9, 'num_leaves': 70, 'n_estimators': 1500, 'min_split_gain': 0.2, 'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
         ('10', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=3, verbosity=0,
-                             **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10,
-                                'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+                             **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
         ('11', cb.CatBoostClassifier(random_seed=3, silent=True, thread_count=2,
                                      **{'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 7})),
         ('12', lgb.LGBMClassifier(random_state=3, silent=True, n_jobs=2,
-                                  **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.3,
-                                     'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+                                  **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.3, 'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
         # ('13', XGBClassifier(objective='binary:logistic', verbosity=0,silent=True, nthread=2, seed=4, **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 2, 'max_depth': 7, 'learning_rate': 0.03, 'colsample_bytree': 0.7})),
         # ('14', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=4,**{'learning_rate': 0.15, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 6})),
         # ('15', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=4,**{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.5, 'max_depth': 20, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
     ]
- 
+
     # In[ ]:
 
     # layer_one_estimators = estimators[:10]
     # layer_two_estimators = estimators[10:]
     # layer_two = StackingClassifier(estimators=layer_two_estimators, final_estimator=LogisticRegression(), n_jobs=4)
     # clf = StackingClassifier(estimators=layer_one_estimators, final_estimator=layer_two, n_jobs=4)
-    #weight=np.array([0.9347, 0.9353400000000001, 0.9343, 0.93392, 0.9351800000000001, 0.93334, 0.9337200000000001, 0.93574, 0.9327400000000001, 0.93452, 0.93506, 0.9335000000000001])
+
     clf = VotingClassifier(estimators=estimators, voting='soft', n_jobs=8)
     # clf = StackingClassifier(
     #     estimators=estimators, final_estimator=LogisticRegression(),n_jobs=8,

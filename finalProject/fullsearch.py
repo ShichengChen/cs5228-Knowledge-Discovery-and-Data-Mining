@@ -54,10 +54,10 @@ import seaborn as sb
 # In[3]:
 
 #from finalProject.featureEngineer import fe
-#from finalProject.bestFeatureBefore import fe
+from finalProject.bestFeatureBefore import fe
 #from finalProject.bestFeatureBeforeCondensed import fe
-from finalProject.slim import fe
-showimage = False
+#from finalProject.slim import fe
+showimage = False 
 
 # In[4]:
 
@@ -142,7 +142,7 @@ lgbparam_grid = {
 #lgbm=pipeline(model,lgbparam_grid)
 
 
-cbparams = {'depth': [4,6, 7, 8,9,10,15,20],'learning_rate' : [0.03,0.05,0.1, 0.15,0.2,0.3],
+cbparams = {'depth': [4,6, 7, 8,9,10],'learning_rate' : [0.03,0.05,0.1, 0.15,0.2,0.3],
          'l2_leaf_reg': [1,4,6,9,11,12,13,14],'iterations': [500,700,900,1100]}
 
 
@@ -182,7 +182,8 @@ params = [
 ]
 # seeds=[0,1,0,1,0,1]
 seeds = [0, 0, 0,1,1,1,2,2,2,3,3,3,4,4,4]
-param_combo=[40,300,500,40,300,500,40,300,500,40,300,500,40,300,500]
+#param_combo=[40,300,500,40,300,500,40,300,500,40,300,500,40,300,500]
+param_combo=[40,100,300,40,100,300,40,100,300,40,100,300,40,100,300]
 trainedModels = []
 
 
@@ -194,7 +195,7 @@ def pipeline(model, params, random_state=0,param_comb=40):
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
     random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
-                                       scoring='accuracy', n_jobs=8, cv=skf.split(x_train, y_train),
+                                       scoring='accuracy', n_jobs=6, cv=skf.split(x_train, y_train),
                                        verbose=0, random_state=random_state)
 
     # Here we go
@@ -208,7 +209,7 @@ def pipeline(model, params, random_state=0,param_comb=40):
 searchedParams=[]
 
 for i in range(min(len(models),15)):
-    if(i<=2):continue
+    #if(i<=2):continue
     trainedModels.append(pipeline(models[i],params[i],seeds[i],param_combo[i]))
 
     random_search=trainedModels[-1]
