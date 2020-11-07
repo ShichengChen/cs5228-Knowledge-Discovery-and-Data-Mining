@@ -75,15 +75,16 @@ def fe(df):
     df["RevLineCr"][~df['RevLineCr'].isin(['N', 'Y'])] = 'nan'
     assert (np.sum(df["RevLineCr"].isna()) == 0 and np.sum(~df['RevLineCr'].isin(['N', 'Y', 'nan'])) == 0)
 
-    df = df.drop(['Bank', 'Name', 'City', 'Zip', 'BalanceGross', 'Id'], 1)
+    #df = df.drop(['Bank', 'Name', 'City', 'Zip', 'BalanceGross', 'Id'], 1)
 
     #df["DisbursementDate"][df["DisbursementDate"].isna()] = '19-Oct-20']
     disnan=df["DisbursementDate"].isna()
     df["DisbursementDate"][disnan] = df['ApprovalDate'][disnan].copy()
     df['DisbursementDate'] = df["DisbursementDate"].apply(str)
 
-    showdate=True
+    showdate=False
     if not showdate:
+        print("show years")
         df['DisbursementDate'] = (df['DisbursementDate'].str.split("-").str[-1]).copy()
         assert(np.sum(df["DisbursementDate"].isna())==0)
         df['DisbursementDate'] = df['DisbursementDate'].astype(int)
@@ -94,11 +95,10 @@ def fe(df):
         df['ApprovalFY'] = df['ApprovalFY'].str.replace(r'\D', '')
         df['ApprovalFY']=df['ApprovalFY'].astype(int)
         assert (np.sum(df['ApprovalFY'].isna())==0)
-        df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
-        df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
-        df = df.drop(['ApprovalDate'], 1)
-    else:
 
+        #df = df.drop(['ApprovalDate'], 1)
+    else:
+        print("show date")
         import datetime
         def parsedate(x):
             dt = parse(x)
@@ -111,12 +111,9 @@ def fe(df):
         df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: parsedate(x))
         assert np.sum((df['DisbursementDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
         assert np.sum((df['ApprovalDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
-        df['recession'] = ((parse("01-Dec-2007") <= df['ApprovalDate']) & (df['ApprovalDate'] <= parse("30-Jun-2009"))).astype(int)
-        df['nowadays'] = ((parse("30-Jun-2009") <= df['ApprovalDate'])).astype(int)
         basedate = parse("20-Sep-1968")
-        df['ApprovalDate'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
+        df['ApprovalFY'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
         df['DisbursementDate'] = (df['DisbursementDate'] - basedate).apply(lambda x: x.days)
-        df = df.drop(['ApprovalFY'], 1)
 
     # DisbursementDate = \
     #     df['DisbursementDate'][df["DisbursementDate"].notna()]. \
@@ -170,10 +167,15 @@ def fe(df):
     # df['portion2'] = df['GrAppv'] / df['DisbursementGross']
     # df['portion3'] = df['SBA_Appv'] / df['DisbursementGross']
     df['realstate'] = (df['Term'] > 240).astype(int)
-    # df['recession'] = ((2007 <= df['Appyear']) & (df['Appyear'] <= 2009)).astype(int)
-    # df['nowadays'] = ((2010 <= df['Appyear'])).astype(int)
     #df['before'] = (df['ApprovalFY']<2007).astype(int)
-
+    if not showdate:
+        df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
+        df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
+    else:
+        df['recession'] = (
+                    (parse("01-Dec-2007") <= df['ApprovalFY']) & (df['ApprovalFY'] <= parse("30-Jun-2009"))).astype(
+            int)
+        df['nowadays'] = ((parse("30-Jun-2009") <= df['ApprovalFY'])).astype(int)
 
     # df['fast'] = (df['Term'] == 0).astype(int)
     # df['Tyear'] = (df['Term'] // 12).astype(int)
@@ -209,8 +211,7 @@ def fe(df):
     # for i in df.columns:
     #     print(i, df[i].nunique())
 
-
-
+    df = df.drop(['Bank', 'Name', 'City', 'Zip', 'ApprovalDate', 'BalanceGross', 'Id'], 1)
 
     # In[44]:
 

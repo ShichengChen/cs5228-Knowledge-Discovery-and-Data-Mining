@@ -65,7 +65,7 @@ def fe(df,train=True):
     state = df["Zip"][(df["State"].isna())].apply(lambda x: search.by_zipcode(x).state)
     #print(state)
     df["State"][(df["State"].isna())] = state
-    #df["census"] = df["Zip"].apply(lambda x: search.by_zipcode(x).population_density).copy()
+    df["census"] = df["Zip"].apply(lambda x: search.by_zipcode(x).population).copy()
 
     print('wrong data lowDoc',np.sum(~df['LowDoc'].isin(['N', 'Y'])))
     df["LowDoc"][~df['LowDoc'].isin(['N', 'Y'])] = 'nan'
@@ -394,3 +394,4 @@ if __name__ == '__main__':
     y_pred=y_pred.tolist()
     ans=pd.DataFrame(list(zip(id, y_pred)), columns=['Id', 'ChargeOff'])
     ans.to_csv("ans.csv",index=False)
+    print("out to ans.csv")
