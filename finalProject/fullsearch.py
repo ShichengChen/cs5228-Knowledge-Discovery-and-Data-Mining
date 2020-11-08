@@ -117,10 +117,11 @@ def timer(start_time=None):
 
 
 xgbparams = {
-    'n_estimators': [700,1000,1500],
-    'colsample_bytree': [0.6,0.7,0.8,0.9,1],
-    'max_depth': [5,7,10,12,15,30,50],
-    'subsample': [0.7, 0.8, 0.9,1],
+    'n_estimators': [1000],
+    #'colsample_bytree': [0.9,1],
+    #'max_depth': [5,7,10,12,15,30,50],
+    'max_depth': [10,30,50],
+    #'subsample': [1],
     "min_child_weight" : [1,2,3,6],
     #"learning_rate": [0.03, 0.05, 0.1,0.16]
     "learning_rate": [0.03,0.05, 0.1,0.16]
@@ -131,59 +132,38 @@ xgbparams = {
 
 lgbparam_grid = {
     'n_estimators': [700,800,1000,1500],
-    'colsample_bytree': [0.7, 0.8,0.9],
-    'max_depth': [15,20,25,50,75,80,90],
+    #'colsample_bytree': [0.9,1],
+    'max_depth': [25,50,75,80,90],
     #"num_leaves": [40,50,100,200],
-    "num_leaves": [50,70,100,120,200,300,900,1200],
-    "learning_rate" : [0.01,0.05,0.1],
-    'min_split_gain': [0.2,0.3, 0.4,0.5],
-    'subsample': [0.7, 0.8, 0.9,1],
+    "num_leaves": [100,200,500,900,1200],
+    "learning_rate" : [0.01,0.05,0.1,0.2],
+    #'min_split_gain': [0.2,0.3, 0.4,0.5],
+    #'subsample': [0.7, 0.8, 0.9,1],
 }
 #lgbm=pipeline(model,lgbparam_grid)
 
 
-cbparams = {'depth': [4,6, 7, 8,9,10],'learning_rate' : [0.03,0.05,0.1, 0.15,0.2,0.3],
-         'l2_leaf_reg': [1,4,6,9,11,12,13,14],'iterations': [500,700,900,1100]}
-
-
-models = [
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=0, verbosity=0),
-    cb.CatBoostClassifier(random_seed=0, silent=True,thread_count=2),
-    lgb.LGBMClassifier(random_state=0, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=1, verbosity=0),
-    cb.CatBoostClassifier(random_seed=1, silent=True,thread_count=2),
-    lgb.LGBMClassifier(random_state=1, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=2, verbosity=0),
-    cb.CatBoostClassifier(random_seed=2, silent=True,thread_count=2),
-    lgb.LGBMClassifier(random_state=2, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=3, verbosity=0),
-    cb.CatBoostClassifier(random_seed=3, silent=True,thread_count=2),
-    lgb.LGBMClassifier(random_state=3, silent=True,n_jobs=2),
-    XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=4, verbosity=0),
-    cb.CatBoostClassifier(random_seed=4, silent=True,thread_count=2),
-    lgb.LGBMClassifier(random_state=4, silent=True,n_jobs=2), 
-]
-params = [
-    xgbparams,
-    cbparams,
-    lgbparam_grid,
-    xgbparams,
-    cbparams,
-    lgbparam_grid,
-    xgbparams,
-    cbparams,
-    lgbparam_grid,
-    xgbparams,
-    cbparams,
-    lgbparam_grid,
-    xgbparams,
-    cbparams,
-    lgbparam_grid,
-]
-# seeds=[0,1,0,1,0,1]
-seeds = [0, 0, 0,1,1,1,2,2,2,3,3,3,4,4,4]
-#param_combo=[40,300,500,40,300,500,40,300,500,40,300,500,40,300,500]
-param_combo=[40,100,300,40,100,300,40,100,300,40,100,300,40,100,300]
+cbparams = {'depth': [4,6,8,10],'learning_rate' : [0.03, 0.1, 0.15,0.3],
+         'l2_leaf_reg': [1,2,4,6,9],'iterations': [300,600,900,1200]}
+Nmodel=5
+models=[]
+for i in range(Nmodel):
+    models.append(XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=i, verbosity=0))
+    models.append(cb.CatBoostClassifier(random_seed=i, silent=True,thread_count=2))
+    models.append(lgb.LGBMClassifier(random_state=i, silent=True,n_jobs=2))
+params=[]
+for i in range(Nmodel):
+    params.append(xgbparams)
+    params.append(cbparams)
+    params.append(lgbparam_grid)
+seeds=[]
+for i in range(Nmodel):
+    seeds.append(i)
+param_combo=[]
+for i in range(Nmodel):
+    param_combo.append(40)
+    param_combo.append(300)
+    param_combo.append(500)
 trainedModels = []
 
 
@@ -194,10 +174,12 @@ def pipeline(model, params, random_state=0,param_comb=40):
     folds = 5
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
-    random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
+    # random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
+    #                                    scoring='accuracy', n_jobs=6, cv=skf.split(x_train, y_train),
+    #                                    verbose=0, random_state=random_state)
+    random_search = GridSearchCV(model, param_distributions=params,
                                        scoring='accuracy', n_jobs=6, cv=skf.split(x_train, y_train),
-                                       verbose=0, random_state=random_state)
-
+                                       verbose=0, random_state=random_state)  
     # Here we go
     start_time = timer(None)  # timing starts from this point for "start_time" variable
     random_search.fit(x_train, y_train)
@@ -208,7 +190,7 @@ def pipeline(model, params, random_state=0,param_comb=40):
 # In[ ]:
 searchedParams=[]
 
-for i in range(min(len(models),15)):
+for i in range(min(len(models),Nmodel)):
     #if(i<=2):continue
     trainedModels.append(pipeline(models[i],params[i],seeds[i],param_combo[i]))
 
@@ -219,7 +201,7 @@ for i in range(min(len(models),15)):
         out = '(\'' + str(
             i + 1) + '\', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=' + str(
             i // 3) + ',**' + str(random_search.best_params_) + ')),'
-    elif(i%3==2):
+    else:
         out = '(\'' + str(
             i + 1) + '\', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=' + str(
             i // 3) + ',**' + str(random_search.best_params_) + ')),'

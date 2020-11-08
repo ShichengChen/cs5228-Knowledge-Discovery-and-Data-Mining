@@ -67,6 +67,11 @@ def fe(df):
     #print(state)
     df["State"][(df["State"].isna())] = state
     #df["census"] = df["Zip"].apply(lambda x: search.by_zipcode(x).population_density).copy()
+    guess=False
+    if guess:
+        print("I want to guess") #guess result 0.93735
+        df['RevLineCr'][df['RevLineCr'] == 'T']='Y'
+        df['RevLineCr'][df['RevLineCr'] == '0']='N'
 
     print('wrong data lowDoc',np.sum(~df['LowDoc'].isin(['N', 'Y'])))
     df["LowDoc"][~df['LowDoc'].isin(['N', 'Y'])] = 'nan'
@@ -107,13 +112,11 @@ def fe(df):
                 dt = datetime.datetime(dt.year - 100, dt.month, dt.day)
             return dt
 
-        df['ApprovalDate'] = df['ApprovalDate'].apply(lambda x: parsedate(x))
+        df['ApprovalFY'] = df['ApprovalDate'].apply(lambda x: parsedate(x))
         df['DisbursementDate'] = df['DisbursementDate'].apply(lambda x: parsedate(x))
         assert np.sum((df['DisbursementDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
-        assert np.sum((df['ApprovalDate'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
-        basedate = parse("20-Sep-1968")
-        df['ApprovalFY'] = (df['ApprovalDate'] - basedate).apply(lambda x: x.days)
-        df['DisbursementDate'] = (df['DisbursementDate'] - basedate).apply(lambda x: x.days)
+        assert np.sum((df['ApprovalFY'] - parse('19-Oct-20')).apply(lambda x: x.days) >= 0) == 0
+
 
     # DisbursementDate = \
     #     df['DisbursementDate'][df["DisbursementDate"].notna()]. \
@@ -176,9 +179,13 @@ def fe(df):
                     (parse("01-Dec-2007") <= df['ApprovalFY']) & (df['ApprovalFY'] <= parse("30-Jun-2009"))).astype(
             int)
         df['nowadays'] = ((parse("30-Jun-2009") <= df['ApprovalFY'])).astype(int)
+        basedate = parse("20-Sep-1968")
+        df['ApprovalFY'] = (df['ApprovalFY']).apply(lambda x: x.year)
+        df['DisbursementDate'] = (df['DisbursementDate']).apply(lambda x: x.year)
 
-    # df['fast'] = (df['Term'] == 0).astype(int)
-    # df['Tyear'] = (df['Term'] // 12).astype(int)
+    print("add more weight for term")
+    df['fast'] = (df['Term'] == 0).astype(int)
+    df['Tyear'] = (df['Term'] // 12).astype(int)
 
     var = ['CreateJob', 'RetainedJob', 'Term', 'GrAppv', 'SBA_Appv', 'NoEmp', 'DisbursementGross', 'portion']
     for i in range(8):
@@ -213,6 +220,7 @@ def fe(df):
 
     df = df.drop(['Bank', 'Name', 'City', 'Zip', 'ApprovalDate', 'BalanceGross', 'Id'], 1)
 
+
     # In[44]:
 
 
@@ -231,6 +239,9 @@ def fe(df):
 
 
     df = pd.get_dummies(df)
+
+    # print("drop multiple nan columns")
+    # df = df.drop(['NewExist_0.0', 'FranchiseCode_2', 'RevLineCr_nan', 'LowDoc_nan', 'BankState_nan'], 1)
 
     print(df.info())
     print(df.columns.values)
@@ -335,3 +346,4 @@ if __name__ == '__main__':
     y_pred=y_pred.tolist()
     ans=pd.DataFrame(list(zip(id, y_pred)), columns=['Id', 'ChargeOff'])
     ans.to_csv("ans2.csv",index=False)
+    print("out to ans2.csv")
