@@ -117,35 +117,44 @@ def timer(start_time=None):
 
 
 xgbparams = {
-    'n_estimators': [1000],
-    #'colsample_bytree': [0.9,1],
+    #'n_estimators': [1400],
+    'n_estimators': [1000,1100,1200,1400,1600,1800,2000],
+    'colsample_bytree': [0.7,0.8,0.9,1],
     #'max_depth': [5,7,10,12,15,30,50],
-    'max_depth': [10,30,50],
-    #'subsample': [1],
-    "min_child_weight" : [1,2,3,6],
+    #'max_depth': [10,30,50],
+    'max_depth': [7,8,10,12,13,14],
+    'subsample': [0.8,0.9,1],
+    "min_child_weight" : [4,5,6,7,8],
     #"learning_rate": [0.03, 0.05, 0.1,0.16]
-    "learning_rate": [0.03,0.05, 0.1,0.16]
+    "learning_rate": [0.01,0.02,0.03,0.4,0.5]#0.05, 0.1,0.16
 }
-
+  
 # In[54]:
+'''
+condense
+('1', XGBClassifier(objective='binary:logistic', verbosity=0,silent=True, nthread=2, random_state=0, **{'n_estimators': 1200, 'min_child_weight': 6, 'max_depth': 12, 'learning_rate': 0.02, 'colsample_bytree': 0.8})),
+('2', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=0,**{'rsm': 1, 'learning_rate': 0.05, 'l2_leaf_reg': 1, 'iterations': 2000, 'depth': 7})),
+('3', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=0,**{'num_leaves': 90, 'n_estimators': 1500, 'max_depth': 30, 'learning_rate': 0.02, 'colsample_bytree': 0.9})),
+'''
+
+cbparams = {'depth': [5,6,7,8,9],'learning_rate' : [0.03,0.04,0.05,0.06,0.07],
+         'l2_leaf_reg': [1,2,3,4],'iterations': [1800,2000,2200,2500,3000],'rsm':[0.9,1]}
 
 
 lgbparam_grid = {
-    'n_estimators': [700,800,1000,1500],
-    #'colsample_bytree': [0.9,1],
-    'max_depth': [25,50,75,80,90],
+    'n_estimators': [1400,1500,1600],
+    'colsample_bytree': [0.8,0.9,1],
+    'max_depth': [15,20,30,35,40,45,50],
     #"num_leaves": [40,50,100,200],
-    "num_leaves": [100,200,500,900,1200],
-    "learning_rate" : [0.01,0.05,0.1,0.2],
+    "num_leaves": [70,80,85,90,95,100,150],
+    "learning_rate" : [0.01,0.02,0.03],
     #'min_split_gain': [0.2,0.3, 0.4,0.5],
-    #'subsample': [0.7, 0.8, 0.9,1],
+    'subsample': [0.7, 0.8, 0.9,1],
 }
 #lgbm=pipeline(model,lgbparam_grid)
 
 
-cbparams = {'depth': [4,6,8,10],'learning_rate' : [0.03, 0.1, 0.15,0.3],
-         'l2_leaf_reg': [1,2,4,6,9],'iterations': [300,600,900,1200]}
-Nmodel=5
+Nmodel=3
 models=[]
 for i in range(Nmodel):
     models.append(XGBClassifier(objective='binary:logistic', silent=True, nthread=2, random_state=i, verbosity=0))
@@ -159,11 +168,15 @@ for i in range(Nmodel):
 seeds=[]
 for i in range(Nmodel):
     seeds.append(i)
+    seeds.append(i)
+    seeds.append(i)
 param_combo=[]
 for i in range(Nmodel):
-    param_combo.append(40)
+    param_combo.append(60)
     param_combo.append(300)
     param_combo.append(500)
+    # param_combo.append(300)
+    # param_combo.append(500)
 trainedModels = []
 
 
@@ -174,12 +187,12 @@ def pipeline(model, params, random_state=0,param_comb=40):
     folds = 5
     skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=random_state)
 
-    # random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
-    #                                    scoring='accuracy', n_jobs=6, cv=skf.split(x_train, y_train),
-    #                                    verbose=0, random_state=random_state)
-    random_search = GridSearchCV(model, param_distributions=params,
+    random_search = RandomizedSearchCV(model, param_distributions=params, n_iter=param_comb,
                                        scoring='accuracy', n_jobs=6, cv=skf.split(x_train, y_train),
-                                       verbose=0, random_state=random_state)  
+                                       verbose=0)
+    # random_search = GridSearchCV(model, param_grid=params,
+    #                                    scoring='accuracy', n_jobs=6, cv=skf.split(x_train, y_train),
+    #                                    verbose=0)
     # Here we go
     start_time = timer(None)  # timing starts from this point for "start_time" variable
     random_search.fit(x_train, y_train)
@@ -190,8 +203,9 @@ def pipeline(model, params, random_state=0,param_comb=40):
 # In[ ]:
 searchedParams=[]
 
-for i in range(min(len(models),Nmodel)):
+for i in range(min(len(models),Nmodel*3)):
     #if(i<=2):continue
+    #if(i==0):continue  
     trainedModels.append(pipeline(models[i],params[i],seeds[i],param_combo[i]))
 
     random_search=trainedModels[-1]
@@ -237,4 +251,27 @@ for i in searchedParams:
 # acc = round(accuracy_score(y_test, y_pred) * 100, 2)
 # print(acc)
 
+
+
+'''
+bestFeatureBeforeCondensed.py
+ Time taken: 4 hours 1 minutes and 38.43 seconds.
+{'colsample_bytree': 0.9, 'learning_rate': 0.03, 'max_depth': 8, 'min_child_weight': 4, 'n_estimators': 1400}
+0.93366
+
+ Time taken: 2 hours 44 minutes and 38.38 seconds.
+{'depth': 7, 'iterations': 1800, 'l2_leaf_reg': 1, 'learning_rate': 0.05, 'rsm': 1}
+0.9357200000000001
+
+ Time taken: 1 hours 11 minutes and 48.42 seconds.
+{'colsample_bytree': 0.9, 'learning_rate': 0.02, 'max_depth': 30, 'n_estimators': 1400, 'num_leaves': 90}
+0.93514
+[0.93366, 0.9357200000000001, 0.93514]
+['\n Time taken: 4 hours 1 minutes and 38.43 seconds.', '\n Time taken: 2 hours 44 minutes and 38.38 seconds.', '\n Time taken: 1 hours 11 minutes and 48.42 seconds.']
+["('1', XGBClassifier(objective='binary:logistic', verbosity=0,silent=True, nthread=2, random_state=0, **{'colsample_bytree': 0.9, 'learning_rate': 0.03, 'max_depth': 8, 'min_child_weight': 4, 'n_estimators': 1400})),", "('2', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=0,**{'depth': 7, 'iterations': 1800, 'l2_leaf_reg': 1, 'learning_rate': 0.05, 'rsm': 1})),", "('3', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=0,**{'colsample_bytree': 0.9, 'learning_rate': 0.02, 'max_depth': 30, 'n_estimators': 1400, 'num_leaves': 90})),"]
+('1', XGBClassifier(objective='binary:logistic', verbosity=0,silent=True, nthread=2, random_state=0, **{'colsample_bytree': 0.9, 'learning_rate': 0.03, 'max_depth': 8, 'min_child_weight': 4, 'n_estimators': 1400})),
+('2', cb.CatBoostClassifier(silent=True, thread_count=2,random_seed=0,**{'depth': 7, 'iterations': 1800, 'l2_leaf_reg': 1, 'learning_rate': 0.05, 'rsm': 1})),
+('3', lgb.LGBMClassifier(silent=True, n_jobs=2,random_state=0,**{'colsample_bytree': 0.9, 'learning_rate': 0.02, 'max_depth': 30, 'n_estimators': 1400, 'num_leaves': 90})),
+
+'''
 
