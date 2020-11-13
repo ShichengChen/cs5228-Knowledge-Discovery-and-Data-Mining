@@ -3,13 +3,10 @@
 
 
 # Functions for Different Files
-- bestFeatureBefore.py includes all features we made
-- bestFeatureBeforeCondense.py includes all features we made except one hot for NAICS
-- simple.py only consists of all features without extra feature engineering
-- fullsearch.py includes grid search or random search for good hyperparameters
-- blendans.py is to combine different results by voting.
-- featureImportance.py can draw feature importance.
-- Vis.ipynb is to visualize data
-
-
+- **Vis.ipynb** is to visualize data. It is part of Exploratory and Data Analysis. 
+- **bestFeatureBefore.py** includes all features we made from feature engineering.
+- **bestFeatureBeforeCondense.py** includes all features we made except one-hot encoding for _NAICS_
+- **simple.py** only consists of all original features without extra feature engineering
+- **fullsearch.py** includes grid search or random search for hyperparameters tuning
+- **featureImportance.py** can draw feature importance.
 
