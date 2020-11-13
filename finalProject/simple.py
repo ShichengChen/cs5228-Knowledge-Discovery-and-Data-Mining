@@ -169,7 +169,7 @@ def fe(df):
         plt.show()
 
         # In[34]:
-
+    df['EMI'] = df['DisbursementGross'].astype(float) / (df['Term'] + 1)
     df['SequBS'] = (df['State'] == df['BankState']).astype(int)
     df['portion'] = df['SBA_Appv'] / df['GrAppv']
     df['realstate'] = (df.Term>240).astype(int)

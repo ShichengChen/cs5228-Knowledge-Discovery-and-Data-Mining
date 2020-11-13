@@ -9,6 +9,7 @@
 - fullsearch.py includes grid search or random search for good hyperparameters
 - blendans.py is to combine different results by voting.
 - featureImportance.py can draw feature importance.
+- Vis.ipynb is to visualize data
 
 
 
