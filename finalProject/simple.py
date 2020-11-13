@@ -172,12 +172,12 @@ def fe(df):
 
     df['SequBS'] = (df['State'] == df['BankState']).astype(int)
     df['portion'] = df['SBA_Appv'] / df['GrAppv']
-    df['realstate'] = (df['Term'] > 240).astype(int)
+    df['realstate'] = (df.Term>240).astype(int)
     df['recession'] = ((2007 <= df['ApprovalFY']) & (df['ApprovalFY'] <= 2009)).astype(int)
     df['nowadays'] = ((2010 <= df['ApprovalFY'])).astype(int)
 
-    var = ['CreateJob', 'RetainedJob', 'GrAppv', 'SBA_Appv', 'NoEmp', 'DisbursementGross', 'portion']
-    for i in range(7):
+    var = ['CreateJob', 'RetainedJob', 'GrAppv', 'SBA_Appv', 'NoEmp', 'DisbursementGross', 'portion','Term']
+    for i in range(8):
         df[var[i]] = np.log(1 + df[var[i]])
 
     nai = {11: 'Agriculture', 21: 'Mining', 22: 'Utilities', 23: 'Construction', 31: 'Manufacturing',
@@ -219,7 +219,13 @@ def fe(df):
 
     df = pd.get_dummies(df)
 
-    print(df.info())
+    df = df.drop(['NAICS2_no','LowDoc_nan','RevLineCr_nan','BankState_nan','NewExist_0.0',
+                  'BankState_nan'], 1)
+
+    # bf=['CA','VA','NC','RI','DE','PA','OH','IL','MT','IN','VT','AR','OR','AI','TX']
+    # sf=['CA','ND','AR','SC','AZ','IN','FL','NY','TX']
+
+    print(df.columns.values)
 
     return df
 
@@ -235,8 +241,8 @@ if __name__ == '__main__':
 
     dftest = pd.read_csv("Xtest.csv")
     dftest = fe(dftest)
-    X = df.loc[:, df.columns != 'Y'].values
-    Y = df['Y'].values
+    X = df.loc[:, df.columns != 'Y']
+    Y = df['Y']
     Xftest = dftest.values
     print('Xftest.shape', Xftest.shape)
     x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state=0)
@@ -259,22 +265,110 @@ if __name__ == '__main__':
 
 
     estimators = [
-        ('1', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
-                            **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10,
-                               'learning_rate': 0.03, 'colsample_bytree': 0.9})),
-        ('2', cb.CatBoostClassifier(random_seed=0, silent=True,
-                                    **{'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 700, 'depth': 8})),
-        ('3', lgb.LGBMClassifier(random_state=0, silent=True,
-                                 **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.5,
-                                    'max_depth': 20, 'colsample_bytree': 0.7})),
-        ('4', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
-                            **{'subsample': 0.9, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
-                               'learning_rate': 0.05, 'colsample_bytree': 0.7})),
-        ('5', cb.CatBoostClassifier(random_seed=1, silent=True,
-                                    **{'learning_rate': 0.15, 'l2_leaf_reg': 13, 'iterations': 700, 'depth': 7})),
-        ('6', lgb.LGBMClassifier(random_state=1, silent=True,
-                                 **{'subsample': 0.7, 'num_leaves': 50, 'n_estimators': 700, 'min_split_gain': 0.4,
-                                    'max_depth': 15, 'colsample_bytree': 0.7})),
+        ('1', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=0,
+                            **{'subsample': 0.8, 'n_estimators': 1500, 'min_child_weight': 1, 'max_depth': 7,
+                               'learning_rate': 0.03, 'colsample_bytree': 0.8})),
+        ('2', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=0,
+                                    **{'learning_rate': 0.15, 'l2_leaf_reg': 11, 'iterations': 1100, 'depth': 6})),
+        ('3', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=0,
+                                 **{'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 1500, 'min_split_gain': 0.4,
+                                    'max_depth': 75, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+        ('4', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=1,
+                            **{'subsample': 0.7, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 12,
+                               'learning_rate': 0.03, 'colsample_bytree': 0.6})),
+        ('5', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=1,
+                                    **{'learning_rate': 0.1, 'l2_leaf_reg': 1, 'iterations': 900, 'depth': 7})),
+        ('6', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=1,
+                                 **{'subsample': 1, 'num_leaves': 120, 'n_estimators': 1500, 'min_split_gain': 0.2,
+                                    'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('7', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=2,
+                            **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
+                               'learning_rate': 0.05, 'colsample_bytree': 0.6})),
+        ('8', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=2,
+                                    **{'learning_rate': 0.1, 'l2_leaf_reg': 13, 'iterations': 1100, 'depth': 6})),
+        ('9', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=2,
+                                 **{'subsample': 0.9, 'num_leaves': 70, 'n_estimators': 1500, 'min_split_gain': 0.2,
+                                    'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('10', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=3,
+                             **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10,
+                                'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+        ('11', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=3,
+                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 6, 'iterations': 1100, 'depth': 7})),
+        ('12', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=3,
+                                  **{'subsample': 0.8, 'num_leaves': 120, 'n_estimators': 700, 'min_split_gain': 0.3,
+                                     'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('13', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, random_state=0,
+                             **{'colsample_bytree': 0.9, 'learning_rate': 0.03, 'max_depth': 8, 'min_child_weight': 4,
+                                'n_estimators': 1400})),
+        ('14', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=0,
+                                     **{'depth': 7, 'iterations': 1800, 'l2_leaf_reg': 1, 'learning_rate': 0.05,
+                                        'rsm': 1})),
+        ('15', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=0,
+                                  **{'colsample_bytree': 0.9, 'learning_rate': 0.02, 'max_depth': 30,
+                                     'n_estimators': 1400, 'num_leaves': 90})),
+        ('16', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=0,
+                             **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
+                                'learning_rate': 0.03, 'colsample_bytree': 0.6})),
+        ('17', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=0,
+                                     **{'learning_rate': 0.15, 'l2_leaf_reg': 13, 'iterations': 1100, 'depth': 7})),
+        ('18', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=0,
+                                  **{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 1000, 'min_split_gain': 0.2,
+                                     'max_depth': 90, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+        ('19', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=1,
+                             **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12,
+                                'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+        ('20', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=1,
+                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 1100, 'depth': 7})),
+        ('21', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=1,
+                                  **{'subsample': 1, 'num_leaves': 100, 'n_estimators': 1000, 'min_split_gain': 0.2,
+                                     'max_depth': 75, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+        ('22', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=0,
+                             **{'subsample': 0.8, 'n_estimators': 1500, 'min_child_weight': 1, 'max_depth': 7,
+                                'learning_rate': 0.03, 'colsample_bytree': 0.8})),
+        ('23', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=0,
+                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 9, 'iterations': 1100, 'depth': 7})),
+        ('24', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=0,
+                                  **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 1500, 'min_split_gain': 0.2,
+                                     'max_depth': 25, 'learning_rate': 0.01, 'colsample_bytree': 0.7})),
+        ('25', XGBClassifier(objective='binary:logistic', verbosity=0, silent=True, nthread=2, seed=1,
+                             **{'learning_rate': 0.15, 'l2_leaf_reg': 13, 'iterations': 1100, 'depth': 7})),
+        ('26', cb.CatBoostClassifier(silent=True, thread_count=2, random_seed=1,
+                                     **{'learning_rate': 0.15, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 6})),
+        ('27', lgb.LGBMClassifier(silent=True, n_jobs=2, random_state=1,
+                                  **{'subsample': 0.7, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.5,
+                                     'max_depth': 20, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('28', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=0, verbosity=0,
+                             **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
+                                'learning_rate': 0.03, 'colsample_bytree': 0.6})),
+        ('29', cb.CatBoostClassifier(random_seed=0, silent=True, thread_count=2,
+                                     **{'learning_rate': 0.15, 'l2_leaf_reg': 14, 'iterations': 900, 'depth': 6})),
+        ('30', lgb.LGBMClassifier(random_state=0, silent=True, n_jobs=2,
+                                  **{'subsample': 1, 'num_leaves': 100, 'n_estimators': 700, 'min_split_gain': 0.3,
+                                     'max_depth': 15, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('31', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=1, verbosity=0,
+                             **{'subsample': 1, 'n_estimators': 700, 'min_child_weight': 6, 'max_depth': 12,
+                                'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+        ('32', cb.CatBoostClassifier(random_seed=1, silent=True, thread_count=2,
+                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 1, 'iterations': 900, 'depth': 7})),
+        ('33', lgb.LGBMClassifier(random_state=1, silent=True, n_jobs=2,
+                                  **{'subsample': 0.9, 'num_leaves': 120, 'n_estimators': 700, 'min_split_gain': 0.2,
+                                     'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('34', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=2, verbosity=0,
+                             **{'subsample': 0.8, 'n_estimators': 700, 'min_child_weight': 1, 'max_depth': 10,
+                                'learning_rate': 0.05, 'colsample_bytree': 0.6})),
+        ('35', cb.CatBoostClassifier(random_seed=2, silent=True, thread_count=2,
+                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 12, 'iterations': 1100, 'depth': 8})),
+        ('36', lgb.LGBMClassifier(random_state=2, silent=True, n_jobs=2,
+                                  **{'subsample': 0.9, 'num_leaves': 70, 'n_estimators': 1500, 'min_split_gain': 0.2,
+                                     'max_depth': 25, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
+        ('37', XGBClassifier(objective='binary:logistic', silent=True, nthread=2, seed=3, verbosity=0,
+                             **{'subsample': 1, 'n_estimators': 1000, 'min_child_weight': 1, 'max_depth': 10,
+                                'learning_rate': 0.03, 'colsample_bytree': 0.7})),
+        ('38', cb.CatBoostClassifier(random_seed=3, silent=True, thread_count=2,
+                                     **{'learning_rate': 0.1, 'l2_leaf_reg': 11, 'iterations': 900, 'depth': 7})),
+        ('39', lgb.LGBMClassifier(random_state=3, silent=True, n_jobs=2,
+                                  **{'subsample': 0.8, 'num_leaves': 100, 'n_estimators': 800, 'min_split_gain': 0.3,
+                                     'max_depth': 90, 'learning_rate': 0.05, 'colsample_bytree': 0.7})),
     ]
 
     # In[ ]:
@@ -292,4 +386,8 @@ if __name__ == '__main__':
     id = np.arange(y_pred.shape[0]).tolist()
     y_pred = y_pred.tolist()
     ans = pd.DataFrame(list(zip(id, y_pred)), columns=['Id', 'ChargeOff'])
+
+    # ans[dftest.Term == 0]= 1
+    # ans[dftest.Term >=360 0] = 1 
+
     ans.to_csv("ans.csv", index=False)
